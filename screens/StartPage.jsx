@@ -21,7 +21,7 @@ const StartPage = () => {
             <Image
                 style={[styles.plannieIcon1, styles.planniePosition]}
                 contentFit="cover"
-                // source={require("../assets/plannie-icon-1.png")}
+                source={require("../assets/Plannie_icon.png")}
             />
         </View>
     );

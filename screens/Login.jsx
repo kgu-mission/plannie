@@ -1,41 +1,41 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import { Image } from "expo-image";
 import { Color, FontSize, FontFamily } from "../GlobalStyles";
+import {useNavigation} from "@react-navigation/native";
 
 const Login = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.login}>
-            <View style={styles.loginBg} />
+            <View style={styles.loginBg}></View>
             <Text style={styles.plannie}>Plannie</Text>
+            <TouchableOpacity
+                onPress = {() => navigation.navigate('Calendar')}
+                style={styles.signWithGoogle1}
+                contentFit="cover">
             <Image
                 style={styles.signWithGoogle1}
-                contentFit="cover"
-                // source={require("../assets/sign-with-google-1.png")}
+                source={require("../assets/ios_google.png")}
             />
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     loginBg: {
-        top: 48,
-        left: 393,
+        top: 60,
         borderTopLeftRadius: 37,
         borderTopRightRadius: 37,
-        backgroundColor: Color.backgroundDefaultDefault,
+        backgroundColor: "#FFFFFF",
         width: 393,
-        height: 803,
-        transform: [
-            {
-                rotate: "-180deg",
-            },
-        ],
+        height: 800,
         position: "absolute",
     },
     plannie: {
-        top: 92,
-        left: 24,
+        top: 90,
+        left: 30,
         fontSize: FontSize.size_8xl_5,
         fontWeight: "600",
         fontFamily: FontFamily.bodyStrong,
@@ -44,12 +44,14 @@ const styles = StyleSheet.create({
         position: "absolute",
     },
     signWithGoogle1: {
-        marginTop: -28.3,
-        marginLeft: -144,
-        top: "50%",
-        left: "50%",
-        width: 288,
-        height: 56,
+        alignSelf: "center",
+        // marginTop: -28.3,
+        // marginLeft: -144,
+        top: "45%",
+        // left: "50%",
+        width: 258,
+        borderWidth: 0,
+        height: 60,
         position: "absolute",
     },
     login: {

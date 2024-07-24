@@ -3,8 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeBaseProvider } from 'native-base';
-import StartPage from './screens/StartPage'; // 경로를 소문자로 변경
+import StartPage from './screens/StartPage';
 import Login from './screens/Login';
+import Calendar from './screens/Calendar';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,10 @@ export default function App() {
                         <RootStack.Screen
                             name="Login"
                             component={Login}
+                            />
+                        <RootStack.Screen
+                            name="Calendar"
+                            component={Calendar}
                             />
                     </RootStack.Navigator>
                 </NavigationContainer>

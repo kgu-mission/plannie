@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -193,11 +193,16 @@ const Calendar = () => {
                         contentFit="cover"
                         source={require("../assets/Home.png")}
                     />
-                    <Image
-                        style={[styles.userIcon, styles.iconLayout]}
-                        contentFit="cover"
-                        source={require("../assets/User.png")}
-                    />
+                    <TouchableOpacity
+                        onPress = {() => navigation.navigate('MyPageMain')}
+                        style={styles.signWithGoogle1}
+                        contentFit="cover">
+                        <Image
+                            style={[styles.userIcon, styles.iconLayout]}
+                            contentFit="cover"
+                            source={require("../assets/User.png")}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>

@@ -277,8 +277,8 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
     icon: {
-        height: "100%",
-        width: "100%",
+        height: "15px",
+        width: "15px",
     },
     calSearch: {
         height: 32,

@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 37,
         borderTopRightRadius: 37,
         backgroundColor: "#FFFFFF",
-        width: 393,
-        height: 800,
+        width: "100%",
+        height: "100%",
         position: "absolute",
     },
     plannie: {

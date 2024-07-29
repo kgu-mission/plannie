@@ -77,11 +77,11 @@ const Calendar = () => {
                                     source={require("../assets/arrow_back.png")}
                                 />
                             </TouchableOpacity>
-                            <View style={styles.monthAndYear}>
+                            <TouchableOpacity  onPress = {() => navigation.navigate('MonthList')} style={styles.monthAndYear}>
                                 <Text style={styles.monthYyyy}>
                                     {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
                                 </Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={handleNextMonth}>
                                 <Image
                                     style={styles.arrowBackIcon}

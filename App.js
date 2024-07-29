@@ -7,6 +7,7 @@ import StartPage from './screens/StartPage';
 import Login from './screens/Login';
 import Calendar from './screens/Calendar';
 import MyPageMain from "./screens/MyPageMain";
+import MonthList from "./screens/MonthList";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,10 @@ export default function App() {
                         <RootStack.Screen
                             name="Calendar"
                             component={Calendar}
+                            />
+                        <RootStack.Screen
+                            name="MonthList"
+                            component={MonthList}
                             />
                         <RootStack.Screen
                             name="MyPageMain"

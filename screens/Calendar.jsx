@@ -26,7 +26,7 @@ const Calendar = () => {
                     <Image
                         style={styles.icon}
                         contentFit="cover"
-                        source={require("../assets/search.png")}
+                        // source={require("../assets/search.png")}
                     />
                 {/*</Pressable>*/}
             </View>

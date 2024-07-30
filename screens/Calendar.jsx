@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import styles from '../Styles/CalendarStyles';
+import BottomNav from "../nav/BottomNav";
 
 const Calendar = () => {
     const navigation = useNavigation();
@@ -104,29 +105,30 @@ const Calendar = () => {
                         {renderDays()}
                     </View>
             </View>
-            <View style={styles.bottomNav}>
-                <View style={styles.nav}>
-                    <Image
-                        style={styles.tooltip}
-                        contentFit="cover"
-                        source={require("../assets/Tooltip.png")}
-                    />
-                    <Image
-                        style={styles.iconLayout}
-                        contentFit="cover"
-                        source={require("../assets/Home.png")}
-                    />
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('MyPageMain')}
-                        contentFit="cover">
-                        <Image
-                            style={[styles.userIcon, styles.iconLayout]}
-                            contentFit="cover"
-                            source={require("../assets/User.png")}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <BottomNav/>
+            {/*<View style={styles.bottomNav}>*/}
+            {/*    <View style={styles.nav}>*/}
+            {/*        <Image*/}
+            {/*            style={styles.tooltip}*/}
+            {/*            contentFit="cover"*/}
+            {/*            source={require("../assets/Tooltip.png")}*/}
+            {/*        />*/}
+            {/*        <Image*/}
+            {/*            style={styles.iconLayout}*/}
+            {/*            contentFit="cover"*/}
+            {/*            source={require("../assets/Home.png")}*/}
+            {/*        />*/}
+            {/*        <TouchableOpacity*/}
+            {/*            onPress={() => navigation.navigate('MyPageMain')}*/}
+            {/*            contentFit="cover">*/}
+            {/*            <Image*/}
+            {/*                style={[styles.userIcon, styles.iconLayout]}*/}
+            {/*                contentFit="cover"*/}
+            {/*                source={require("../assets/User.png")}*/}
+            {/*            />*/}
+            {/*        </TouchableOpacity>*/}
+            {/*    </View>*/}
+            {/*</View>*/}
         </View>
     );
 };

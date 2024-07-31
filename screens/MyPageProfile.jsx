@@ -2,8 +2,10 @@ import * as React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
 import { Color, FontFamily, FontSize, StyleVariable } from "../GlobalStyles";
+import {useNavigation} from "@react-navigation/native";
 
 const MyPageProfile = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.mypageProfile}>
             <View style={[styles.bottomNav, styles.tooltipBorder]}>

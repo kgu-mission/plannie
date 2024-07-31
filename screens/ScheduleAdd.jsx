@@ -1,43 +1,62 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
-import { Image } from "expo-image";
+import {Text, StyleSheet, View, TouchableOpacity, Image, Modal, ScrollView} from "react-native";
 import { FontFamily, FontSize, Color } from "../GlobalStyles";
+import ScheduleCreate from "./ScheduleCreate";
 
-const ScheduleAdd = () => {
+const ScheduleAdd = ({ selectedDate }) => {
+    const [modalVisible, setModalVisible] = React.useState(false);
+
+    const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) : '';
+
     return (
-        <View style={[styles.scheduleAdd, styles.schFlexBox]}>
-            <View style={styles.schContent}>
-                <View style={styles.schFrame}>
-                    <Text style={[styles.schDate, styles.textTypo]}>6월 26일 수</Text>
-                    <View style={styles.schList}>
-                        <View style={[styles.schList1, styles.schFlexBox]}>
-                            <Image
-                                style={styles.iconLayout}
-                                contentFit="cover"
-                                // source={require("../assets/check-box.png")}
-                            />
-                            <Text style={[styles.text, styles.textTypo]}>
-                                미적분 2단원 기출
-                            </Text>
-                        </View>
-                        <View style={[styles.schList11, styles.schFlexBox]}>
-                            <Image
-                                style={[styles.squareIcon, styles.iconLayout]}
-                                contentFit="cover"
-                                // source={require("../assets/square.png")}
-                            />
-                            <Text style={[styles.text, styles.textTypo]}>
-                                물리 3단원 개념 정리
-                            </Text>
-                        </View>
-                    </View>
+        <View style={styles.scheduleAdd}>
+            <Text style={[styles.schDate, styles.textTypo]}>{formattedDate}</Text>
+            <ScrollView style={styles.schList}>
+                <View style={[styles.schList1, styles.schFlexBox]}>
+                    <TouchableOpacity>
+                        <Image
+                            style={styles.iconLayout}
+                            source={require("../assets/Square.png")}
+                        />
+                    </TouchableOpacity>
+                    <Text style={[styles.text, styles.textTypo]}>
+                        미적분 2단원 기출
+                    </Text>
                 </View>
+                <View style={[styles.schList11, styles.schFlexBox]}>
+                    <TouchableOpacity>
+                        <Image
+                            style={[styles.squareIcon, styles.iconLayout]}
+                            source={require("../assets/Square.png")}
+                        />
+                    </TouchableOpacity>
+                    <Text style={[styles.text, styles.textTypo]}>
+                        물리 3단원 개념 정리
+                    </Text>
+                </View>
+            </ScrollView>
+            <TouchableOpacity
+                style={styles.schPlusIcon}
+                onPress={() => setModalVisible(true)}
+            >
                 <Image
-                    style={styles.schPlusIcon}
-                    contentFit="cover"
-                    // source={require("../assets/sch-plus.png")}
+                    style={styles.iconLayout}
+                    source={require("../assets/sch_plus.png")}
                 />
-            </View>
+            </TouchableOpacity>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.modalBackground}>
+                    <ScheduleCreate selectedDate={selectedDate} closeModal={() => setModalVisible(false)} />
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -60,6 +79,8 @@ const styles = StyleSheet.create({
     schDate: {
         color: Color.colorLightskyblue_100,
         alignSelf: "stretch",
+        fontSize: FontSize.size_4xl_9,
+        marginBottom: 20,
     },
     text: {
         color: Color.colorDarkslategray_200,
@@ -67,6 +88,8 @@ const styles = StyleSheet.create({
     },
     schList1: {
         alignSelf: "stretch",
+        flexDirection: "row",
+        alignItems: "center",
     },
     squareIcon: {
         overflow: "hidden",
@@ -74,35 +97,31 @@ const styles = StyleSheet.create({
     schList11: {
         marginTop: 25.9,
         alignSelf: "stretch",
+        flexDirection: "row",
+        alignItems: "center",
     },
     schList: {
         marginTop: 34.9,
-        alignSelf: "stretch",
-    },
-    schFrame: {
-        paddingHorizontal: 5,
-        paddingVertical: 0,
         alignSelf: "stretch",
     },
     schPlusIcon: {
         width: 48,
         height: 48,
         overflow: "hidden",
-    },
-    schContent: {
-        width: 339,
-        height: 499,
-        alignItems: "flex-end",
-        justifyContent: "space-between",
+        alignSelf: "flex-end"
     },
     scheduleAdd: {
-        borderRadius: 41,
+        borderRadius: 20,
         backgroundColor: Color.backgroundDefaultDefault,
-        width: 393,
-        height: 557,
-        justifyContent: "center",
-        paddingHorizontal: 24,
-        paddingVertical: 22,
+        width: 350,
+        height: 600,
+        padding: 20,
+        alignItems: "center",
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: "flex-end",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
 });
 

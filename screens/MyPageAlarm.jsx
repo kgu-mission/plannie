@@ -2,8 +2,10 @@ import * as React from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
 import { Color, FontFamily, FontSize, StyleVariable } from "../GlobalStyles";
+import {useNavigation} from "@react-navigation/native";
 
 const MyPageAlarm = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.mypageAlarm}>
             <View style={[styles.bottomNav, styles.tooltipFlexBox]}>

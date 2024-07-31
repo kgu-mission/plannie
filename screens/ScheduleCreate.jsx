@@ -1,30 +1,34 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text } from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ScrollView} from "react-native";
 import { FontFamily, FontSize, Color } from "../GlobalStyles";
 
-const ScheduleCreate = () => {
+const ScheduleCreate = ({ selectedDate, closeModal }) => {
+    const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) : '';
+
     return (
         <View style={styles.scheduleCreate}>
             <View style={[styles.ncXCheck, styles.frameFlexBox]}>
-                <Image
-                    style={styles.ncXIcon}
-                    contentFit="cover"
-                    // source={require("../assets/nc-x.png")}
-                />
+                <TouchableOpacity onPress={closeModal}>
+                    <Image
+                        style={styles.ncXIcon}
+                        contentFit="cover"
+                        source={require("../assets/nc_x.png")}
+                    />
+                </TouchableOpacity>
                 <Image
                     style={styles.ncCheckIcon}
                     contentFit="cover"
-                    // source={require("../assets/nc-check.png")}
+                    source={require("../assets/nc_check.png")}
                 />
             </View>
-            <View style={styles.ncContent}>
+            <ScrollView style={styles.ncContent}>
                 <Text style={styles.ncScheduleTitle}>일정 제목</Text>
                 <View style={styles.frameSpaceBlock}>
                     <View style={[styles.scDateFrame, styles.frameFlexBox]}>
                         <Text style={[styles.scDateText, styles.dateTypo]}>날짜</Text>
                         <Text style={[styles.scDate, styles.dateTypo]}>
-                            2024.06.26 수요일
+                            {formattedDate}
                         </Text>
                     </View>
                     <View style={[styles.scTimeFrame, styles.frameSpaceBlock]}>
@@ -44,7 +48,7 @@ const ScheduleCreate = () => {
                             <Image
                                 style={styles.scNotiButtonIcon}
                                 contentFit="cover"
-                                // source={require("../assets/sc-noti-button.png")}
+                                source={require("../assets/sc_noti_button.png")}
                             />
                         </View>
                     </View>
@@ -61,7 +65,7 @@ const ScheduleCreate = () => {
                             <Image
                                 style={styles.scNotiButtonIcon}
                                 contentFit="cover"
-                                // source={require("../assets/sc-noti-button1.png")}
+                                source={require("../assets/sc_noti_button.png")}
                             />
                         </View>
                     </View>
@@ -71,7 +75,7 @@ const ScheduleCreate = () => {
                         <View style={styles.scMemo} />
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     );
 };
@@ -97,8 +101,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     ncXIcon: {
-        height: 31,
-        width: 31,
+        height: 70,
+        width: 70,
     },
     ncCheckIcon: {
         height: 35,
@@ -173,8 +177,8 @@ const styles = StyleSheet.create({
     },
     scMemo: {
         borderRadius: 9,
-        backgroundColor: "rgba(0, 0, 0, 0.03)",
-        height: 168,
+        backgroundColor: "rgba(0, 0, 0, 0.08)",
+        height: 250,
         marginTop: 4.4,
         alignSelf: "stretch",
     },
@@ -183,14 +187,14 @@ const styles = StyleSheet.create({
     },
     ncContent: {
         width: 306,
+        height: 650,
         marginTop: 8.9,
     },
     scheduleCreate: {
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
         backgroundColor: Color.backgroundDefaultDefault,
-        width: 403,
-        height: 543,
+        width: '100%',
         paddingHorizontal: 24,
         paddingVertical: 18,
         alignItems: "center",

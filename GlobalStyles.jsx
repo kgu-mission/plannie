@@ -1,18 +1,18 @@
 /* fonts */
-export const FontFamily = {
-    bodySmall: "Inter-Regular",
-    bodyStrong: "Inter-SemiBold",
-    title3Regular: "SF Pro",
-    saralaRegular: "Sarala-Regular",
-    saralaBold: "Sarala-Bold",
-    m3BodyLarge: "Roboto-Regular",
-    notoSansTeluguUI: "Noto Sans Telugu UI",
-    notoSansHebrewRegular: "NotoSansHebrew-Regular",
-    m3LabelLarge: "Roboto-Medium",
-    interMedium: "Inter-Medium",
-    interExtraBold: "Inter-ExtraBold",
-    interBold: "Inter-Bold",
-};
+import {Asset as Font} from "expo-asset";
+
+export async function FontFamily()  {
+    await Font.loadAsync({
+        // 폰트 이름과 파일 경로 설정
+        'interBold': require('../plannie/assets/Font/Inter-Bold.ttf'),
+        'interMedium': require('../plannie/assets/Font/Inter-Medium.ttf'),
+        'interSemiBold': require('../plannie/assets/Font/Inter-SemiBold.ttf'),
+        'interRegular': require('../plannie/assets/Font/Inter-Regular.ttf'),
+        'interThin': require('../plannie/assets/Font/Inter-Thin.ttf'),
+        'interBlack': require('../plannie/assets/Font/Inter-Black.ttf'),
+        'interLight': require('../plannie/assets/Font/Inter-Light.ttf'),
+    });
+}
 /* font sizes */
 export const FontSize = {
     size_smi_9: 13,

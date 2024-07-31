@@ -5,9 +5,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeBaseProvider } from 'native-base';
 import StartPage from './screens/StartPage';
 import Login from './screens/Login';
+
 import Calendar from './screens/Calendar';
-import MyPageMain from "./screens/MyPageMain";
 import MonthList from "./screens/MonthList";
+
+import ChatMain from "./screens/ChatMain";
+
+import MyPageMain from "./screens/MyPageMain";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +43,10 @@ export default function App() {
                             name="MonthList"
                             component={MonthList}
                             />
+                        <RootStack.Screen
+                            name="ChatMain"
+                            component={ChatMain}
+                        />
                         <RootStack.Screen
                             name="MyPageMain"
                             component={MyPageMain}

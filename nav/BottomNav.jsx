@@ -9,16 +9,24 @@ const BottomNav = () => {
     return (
         <View style={styles.bottomNav}>
             <View style={styles.nav}>
-                <Image
-                    style={styles.tooltip}
-                    contentFit="cover"
-                    source={require("../assets/Tooltip.png")}
-                />
-                <Image
-                    style={styles.iconLayout}
-                    contentFit="cover"
-                    source={require("../assets/Home.png")}
-                />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('ChatMain')}
+                    contentFit="cover">
+                    <Image
+                        style={styles.tooltip}
+                        contentFit="cover"
+                        source={require("../assets/Tooltip.png")}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Calendar')}
+                    contentFit="cover">
+                    <Image
+                        style={styles.iconLayout}
+                        contentFit="cover"
+                        source={require("../assets/Home.png")}
+                    />
+                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('MyPageMain')}
                     contentFit="cover">

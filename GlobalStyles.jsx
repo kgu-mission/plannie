@@ -4,13 +4,13 @@ import {Asset as Font} from "expo-asset";
 export async function FontFamily()  {
     await Font.loadAsync({
         // 폰트 이름과 파일 경로 설정
-        'interBold': require('../plannie/assets/Font/Inter-Bold.ttf'),
-        'interMedium': require('../plannie/assets/Font/Inter-Medium.ttf'),
-        'interSemiBold': require('../plannie/assets/Font/Inter-SemiBold.ttf'),
-        'interRegular': require('../plannie/assets/Font/Inter-Regular.ttf'),
-        'interThin': require('../plannie/assets/Font/Inter-Thin.ttf'),
-        'interBlack': require('../plannie/assets/Font/Inter-Black.ttf'),
-        'interLight': require('../plannie/assets/Font/Inter-Light.ttf'),
+        'interBold': require('./assets/Font/Inter-Bold.ttf'),
+        'interMedium': require('./assets/Font/Inter-Medium.ttf'),
+        'interSemiBold': require('./assets/Font/Inter-SemiBold.ttf'),
+        'interRegular': require('./assets/Font/Inter-Regular.ttf'),
+        'interThin': require('./assets/Font/Inter-Thin.ttf'),
+        'interBlack': require('./assets/Font/Inter-Black.ttf'),
+        'interLight': require('./assets/Font/Inter-Light.ttf'),
     });
 }
 /* font sizes */

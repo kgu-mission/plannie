@@ -12,6 +12,10 @@ import MonthList from "./screens/MonthList";
 import ChatMain from "./screens/ChatMain";
 
 import MyPageMain from "./screens/MyPageMain";
+import MyPageProfile from "./screens/MyPageProfile";
+import MyPageNotice from "./screens/MyPageNotice";
+import MyPageAlarm from "./screens/MyPageAlarm";
+import MyPageEnquire from "./screens/MyPageEnquire";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,31 +30,37 @@ export default function App() {
                         initialRouteName={"StartPage"}
                         screenOptions={{ headerShown: false}}
                     >
+                        <RootStack.Screen
+                            name="StartPage" component={StartPage}
+                        />
+                        <RootStack.Screen
+                            name="Login" component={Login}
+                        />
+                        <RootStack.Screen
+                            name="Calendar" component={Calendar}
+                        />
+                        <RootStack.Screen
+                            name="MonthList" component={MonthList}
+                        />
+                        <RootStack.Screen
+                            name="ChatMain" component={ChatMain}
+                        />
+                        <RootStack.Screen
+                            name="MyPageMain" component={MyPageMain}
+                        />
+                        <RootStack.Screen
+                            name="MyPageProfile" component={MyPageProfile}
+                        />
+                        <RootStack.Screen
+                            name="MyPageNotice" component={MyPageNotice}
+                        />
+                        <RootStack.Screen
+                            name="MyPageAlarm" component={MyPageAlarm}
+                            />
+                        <RootStack.Screen
+                            name="MyPageEnquire" component={MyPageEnquire}
+                            />
 
-                        <RootStack.Screen
-                            name="StartPage"
-                            component={StartPage}
-                        />
-                        <RootStack.Screen
-                            name="Login"
-                            component={Login}
-                            />
-                        <RootStack.Screen
-                            name="Calendar"
-                            component={Calendar}
-                            />
-                        <RootStack.Screen
-                            name="MonthList"
-                            component={MonthList}
-                            />
-                        <RootStack.Screen
-                            name="ChatMain"
-                            component={ChatMain}
-                        />
-                        <RootStack.Screen
-                            name="MyPageMain"
-                            component={MyPageMain}
-                            />
                     </RootStack.Navigator>
                 </NavigationContainer>
             </SafeAreaProvider>

@@ -4,8 +4,10 @@ import {Text, TouchableOpacity, View} from "react-native";
 import styles from '../Styles/MyPageMainStyles';
 import BottomNav from "../nav/BottomNav";
 import MyPageTopNav from "../nav/MyPageTopNav";
+import {useNavigation} from "@react-navigation/native";
 
 const MyPageMain = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.mypageMain}>
             <MyPageTopNav/>
@@ -29,20 +31,32 @@ const MyPageMain = () => {
                         />
                         <View style={styles.mpNickContent}>
                             <Text style={styles.titleTypo}>닉네임</Text>
-                            <Image
-                                style={styles.arrowIconLayout}
-                                contentFit="cover"
-                                source={require("../assets/arrow_front.png")}
-                            />
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate('MyPageProfile')}
+                                contentFit="cover">
+                                <Image
+                                    style={styles.arrowIconLayout}
+                                    contentFit="cover"
+                                    source={require("../assets/arrow_front.png")}
+                                />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.mpProfileButtonContent}>
-                        <View style={styles.profileFlexBox}>
-                            <Text style={styles.mpProfileButton}>프로필 편집</Text>
-                        </View>
-                        <View style={[styles.mpProfileModify, styles.profileFlexBox]}>
-                            <Text style={styles.mpProfileButton}>정보 수정</Text>
-                        </View>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('MyPageProfile')}
+                            contentFit="cover">
+                            <View style={styles.profileFlexBox}>
+                                <Text style={styles.mpProfileButton}>프로필 편집</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('MyPageProfile')}
+                            contentFit="cover">
+                            <View style={[styles.mpProfileModify, styles.profileFlexBox]}>
+                                <Text style={styles.mpProfileButton}>정보 수정</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -51,27 +65,39 @@ const MyPageMain = () => {
             <View style={styles.mpContentFrame}>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>공지사항</Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('MyPageNotice')}
+                        contentFit="cover">
                     <Image
                         style={styles.arrowIconLayout}
                         contentFit="cover"
                         source={require("../assets/arrow_front.png")}
                     />
+                    </TouchableOpacity>
                 </View>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>알림설정</Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('MyPageAlarm')}
+                        contentFit="cover">
                     <Image
                         style={styles.arrowIconLayout}
                         contentFit="cover"
                         source={require("../assets/arrow_front.png")}
                     />
+                    </TouchableOpacity>
                 </View>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>문의하기</Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('MyPageEnquire')}
+                        contentFit="cover">
                     <Image
                         style={styles.arrowIconLayout}
                         contentFit="cover"
                         source={require("../assets/arrow_front.png")}
                     />
+                    </TouchableOpacity>
                 </View>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>버전정보</Text>

@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, TouchableWithoutFeedba
 import { Image } from "expo-image";
 import styles from '../Styles/CalendarStyles';
 import BottomNav from "../nav/BottomNav";
-import ScheduleAdd from "./ScheduleAdd"; // ScheduleAdd 컴포넌트를 가져옵니다.
+import ScheduleAdd from "./ScheduleAdd";
+import {useNavigation} from "@react-navigation/native";
 
 const Calendar = () => {
+    const navigation = useNavigation();
     const [currentDate, setCurrentDate] = React.useState(new Date());
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -85,7 +87,9 @@ const Calendar = () => {
                                 source={require("../assets/arrow_back.png")}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.monthAndYear}>
+                        <TouchableOpacity style={styles.monthAndYear}
+                                          onPress={() => navigation.navigate('MonthList')}
+                                          contentFit="cover">
                             <Text style={styles.monthYyyy}>
                                 {currentDate.toLocaleString('default', { month: 'long' })} {currentDate.getFullYear()}
                             </Text>

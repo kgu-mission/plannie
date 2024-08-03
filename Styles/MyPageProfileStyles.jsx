@@ -2,6 +2,15 @@ import {StyleSheet} from "react-native";
 import {Color, FontFamily, FontSize, StyleVariable} from "../GlobalStyles";
 
 const styles = StyleSheet.create({
+    mypageProfile: {
+        backgroundColor: Color.colorAliceblue,
+        flex: 1,
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+    },
+
+
     tooltipBorder: {
         borderStyle: "solid",
         alignItems: "center",
@@ -228,13 +237,7 @@ const styles = StyleSheet.create({
         top: 0,
         backgroundColor: Color.backgroundDefaultDefault,
     },
-    mypageProfile: {
-        backgroundColor: Color.colorAliceblue,
-        flex: 1,
-        width: "100%",
-        height: 852,
-        overflow: "hidden",
-    },
+
 });
 
 export default styles;

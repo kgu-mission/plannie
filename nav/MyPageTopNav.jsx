@@ -1,4 +1,4 @@
-import {Text, View} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import {Image} from "expo-image";
 import * as React from "react";
 import {useNavigation} from "@react-navigation/native";
@@ -9,11 +9,15 @@ const MyPageTopNav = () => {
     return (
         <View style={styles.topNav}>
             <View style={[styles.topNavContentFrame, styles.contentFlexBox]}>
-                <Image
-                    style={styles.arrowIconLayout}
-                    contentFit="cover"
-                    source={require("../assets/arrow_back.png")}
-                />
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('MyPageMain')}
+                    contentFit="cover">
+                    <Image
+                        style={styles.arrowIconLayout}
+                        contentFit="cover"
+                        source={require("../assets/arrow_back.png")}
+                    />
+                </TouchableOpacity>
                 <Text style={styles.plannie}>Plannie</Text>
             </View>
         </View>

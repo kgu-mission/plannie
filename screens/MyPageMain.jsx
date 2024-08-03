@@ -11,16 +11,6 @@ const MyPageMain = () => {
     return (
         <View style={styles.mypageMain}>
             <MyPageTopNav/>
-            {/*<View style={[styles.topNav, styles.topNavPosition]}>*/}
-            {/*    <View style={[styles.topNavContentFrame, styles.contentFlexBox]}>*/}
-            {/*        <Image*/}
-            {/*            style={styles.arrowIconLayout}*/}
-            {/*            contentFit="cover"*/}
-            {/*            source={require("../assets/arrow_back.png")}*/}
-            {/*        />*/}
-            {/*        <Text style={styles.plannie}>Plannie</Text>*/}
-            {/*    </View>*/}
-            {/*</View>*/}
             <View style={styles.mpProfileBox}>
                 <View style={styles.mpProfileWhitebox}>
                     <View style={styles.mpPhotoNicname}>
@@ -101,7 +91,7 @@ const MyPageMain = () => {
                 </View>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>버전정보</Text>
-                    <Text style={[styles.text6, styles.textTypo]}>1.0</Text>
+                    <Text style={[styles.version, styles.textTypo]}>1.0</Text>
                 </View>
             </View>
             <View style={[styles.mpLogoutButton, styles.buttonLayout]}>
@@ -111,36 +101,6 @@ const MyPageMain = () => {
                 <Text style={[styles.text, styles.textTypo]}>탈퇴하기</Text>
             </View>
             <BottomNav/>
-            {/*<View style={[styles.bottomNav, styles.tooltipBorder]}>*/}
-            {/*    <View style={styles.contentFlexBox2}>*/}
-            {/*        <View style={[styles.tooltip, styles.tooltipBorder]}>*/}
-            {/*            <Image*/}
-            {/*                style={[styles.beakIcon, styles.beakIconPosition]}*/}
-            {/*                contentFit="cover"*/}
-            {/*                // source={require("../assets/beak1.png")}*/}
-            {/*            />*/}
-            {/*            <Image*/}
-            {/*                style={[styles.beakStrokeIcon, styles.beakIconPosition]}*/}
-            {/*                contentFit="cover"*/}
-            {/*                // source={require("../assets/beak-stroke1.png")}*/}
-            {/*            />*/}
-            {/*            <Text style={[styles.title, styles.titleTypo]} />*/}
-            {/*            <Text*/}
-            {/*                style={[styles.bodyText, styles.textTypo1]}*/}
-            {/*            >{`          `}</Text>*/}
-            {/*        </View>*/}
-            {/*        <Image*/}
-            {/*            style={styles.iconLayout}*/}
-            {/*            contentFit="cover"*/}
-            {/*            source={require("../assets/Home.png")}*/}
-            {/*        />*/}
-            {/*        <Image*/}
-            {/*            style={[styles.userIcon, styles.iconLayout]}*/}
-            {/*            contentFit="cover"*/}
-            {/*            source={require("../assets/User.png")}*/}
-            {/*        />*/}
-            {/*    </View>*/}
-            {/*</View>*/}
         </View>
     );
 };

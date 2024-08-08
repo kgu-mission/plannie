@@ -10,7 +10,7 @@ const MyPageTopNav = () => {
         <View style={styles.topNav}>
             <View style={[styles.topNavContentFrame, styles.contentFlexBox]}>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('MyPageMain')}
+                    onPress={() => navigation.goBack()}
                     contentFit="cover">
                     <Image
                         style={styles.arrowIconLayout}

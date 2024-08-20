@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Image } from "expo-image";
 import { Text, View } from "react-native";
 import styles from "../Styles/MyPageNoticeStyles";
 import {useNavigation} from "@react-navigation/native";

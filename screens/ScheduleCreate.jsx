@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import {StyleSheet, View, Text, TouchableOpacity, ScrollView} from "react-native";
-import { FontFamily, FontSize, Color } from "../GlobalStyles";
+import {View, Text, TouchableOpacity, ScrollView} from "react-native";
+import styles from "../Styles/ScheduleCreateStyles";
 
 const ScheduleCreate = ({ selectedDate, closeModal }) => {
     const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }) : '';
@@ -55,7 +55,7 @@ const ScheduleCreate = ({ selectedDate, closeModal }) => {
                     <View style={[styles.scTimeFrame, styles.frameSpaceBlock]}>
                         <Text
                             style={[styles.scDateText, styles.dateTypo]}
-                        >{`반복 여부 `}</Text>
+                        >{`반복 여부`}</Text>
                         <View style={[styles.scTimeButtonFrame, styles.frameFlexBox]}>
                             <View style={[styles.scNoti, styles.scNotiFlexBox]}>
                                 <View style={[styles.stateLayer, styles.scNotiFlexBox]}>
@@ -80,125 +80,5 @@ const ScheduleCreate = ({ selectedDate, closeModal }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    frameFlexBox: {
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    dateTypo: {
-        fontFamily: FontFamily.notoSansHebrewRegular,
-        fontSize: FontSize.size_mid_7,
-        textAlign: "left",
-    },
-    frameSpaceBlock: {
-        marginTop: 17.7,
-        alignSelf: "stretch",
-    },
-    scNotiFlexBox: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    ncXIcon: {
-        height: 70,
-        width: 70,
-    },
-    ncCheckIcon: {
-        height: 35,
-        overflow: "hidden",
-        width: 31,
-    },
-    ncXCheck: {
-        width: 336,
-    },
-    ncScheduleTitle: {
-        fontSize: 27,
-        fontWeight: "600",
-        fontFamily: FontFamily.bodyStrong,
-        textAlign: "left",
-        color: Color.colorDarkslategray_100,
-        alignSelf: "stretch",
-    },
-    scDateText: {
-        color: Color.colorDarkslategray_100,
-        fontSize: FontSize.size_mid_7,
-    },
-    scDate: {
-        color: Color.labelsPrimary,
-    },
-    scDateFrame: {
-        alignSelf: "stretch",
-    },
-    scTimeFrame: {
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    labelText: {
-        fontSize: FontSize.m3LabelLarge_size,
-        letterSpacing: 0,
-        lineHeight: 20,
-        fontWeight: "500",
-        fontFamily: FontFamily.m3LabelLarge,
-        color: Color.schemesOnSurfaceVariant,
-        textAlign: "center",
-    },
-    stateLayer: {
-        justifyContent: "center",
-    },
-    scNoti: {
-        borderRadius: 7,
-        borderStyle: "solid",
-        borderColor: Color.schemesOutline,
-        borderWidth: 0.9,
-        width: 78,
-        height: 29,
-        justifyContent: "center",
-        overflow: "hidden",
-    },
-    scNotiButtonIcon: {
-        width: 21,
-        height: 21,
-    },
-    scTimeButtonFrame: {
-        width: 102,
-    },
-    scUrlText: {
-        marginTop: 17.7,
-        alignSelf: "stretch",
-        color: Color.colorDarkslategray_100,
-        fontSize: FontSize.size_mid_7,
-    },
-    scEpText: {
-        color: Color.colorDarkslategray_100,
-        fontSize: FontSize.size_mid_7,
-        alignSelf: "stretch",
-    },
-    scMemo: {
-        borderRadius: 9,
-        backgroundColor: "rgba(0, 0, 0, 0.08)",
-        height: 250,
-        marginTop: 4.4,
-        alignSelf: "stretch",
-    },
-    scMemoFrame: {
-        justifyContent: "center",
-    },
-    ncContent: {
-        width: 306,
-        height: 650,
-        marginTop: 8.9,
-    },
-    scheduleCreate: {
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        backgroundColor: Color.backgroundDefaultDefault,
-        width: '100%',
-        paddingHorizontal: 24,
-        paddingVertical: 18,
-        alignItems: "center",
-    },
-});
 
 export default ScheduleCreate;

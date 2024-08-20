@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Text, StyleSheet, View, TouchableOpacity, Image, Modal, ScrollView} from "react-native";
-import { FontFamily, FontSize, Color } from "../GlobalStyles";
+import {Text, View, TouchableOpacity, Image, Modal, ScrollView} from "react-native";
+import styles from "../Styles/ScheduleAddStyles";
 import ScheduleCreate from "./ScheduleCreate";
 
 const ScheduleAdd = ({ selectedDate }) => {
@@ -60,69 +60,5 @@ const ScheduleAdd = ({ selectedDate }) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    schFlexBox: {
-        alignItems: "center",
-        flexDirection: "row",
-    },
-    textTypo: {
-        textAlign: "left",
-        fontFamily: FontFamily.bodyStrong,
-        fontWeight: "600",
-        fontSize: FontSize.size_4xl_9,
-    },
-    iconLayout: {
-        height: 40,
-        width: 40,
-    },
-    schDate: {
-        color: Color.colorLightskyblue_100,
-        alignSelf: "stretch",
-        fontSize: FontSize.size_4xl_9,
-        marginBottom: 20,
-    },
-    text: {
-        color: Color.colorDarkslategray_200,
-        marginLeft: 20.9,
-    },
-    schList1: {
-        alignSelf: "stretch",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    squareIcon: {
-        overflow: "hidden",
-    },
-    schList11: {
-        marginTop: 25.9,
-        alignSelf: "stretch",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    schList: {
-        marginTop: 34.9,
-        alignSelf: "stretch",
-    },
-    schPlusIcon: {
-        width: 48,
-        height: 48,
-        overflow: "hidden",
-        alignSelf: "flex-end"
-    },
-    scheduleAdd: {
-        borderRadius: 20,
-        backgroundColor: Color.backgroundDefaultDefault,
-        width: 350,
-        height: 600,
-        padding: 20,
-        alignItems: "center",
-    },
-    modalBackground: {
-        flex: 1,
-        justifyContent: "flex-end",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-});
 
 export default ScheduleAdd;

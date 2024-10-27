@@ -44,27 +44,34 @@ const ChatChatting = () => {
                 text: inputText,
                 sender: 'user'
             };
-            setMessages(prevMessages => [...prevMessages, newMessage]);
+
+            // 최신 메시지를 업데이트한 후의 messages 상태를 사용하여 API 요청
+            const updatedMessages = [...messages, newMessage];
+            setMessages(updatedMessages);
             setInputText("");
 
             try {
-                const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                        { role: "system", content: "You are a helpful assistant." },
-                        ...messages.map(msg => ({
-                            role: msg.sender === 'user' ? 'user' : 'assistant',
-                            content: msg.text
-                        })),
-                        { role: 'user', content: inputText }
-                    ],
-                    max_tokens: 150,
-                    temperature: 0.9,
-                }, {
-                    headers: {
-                        'Authorization': `Bearer YOUR_API_KEY`
+                const response = await axios.post(
+                    'https://api.openai.com/v1/chat/completions',
+                    {
+                        model: "gpt-3.5-turbo",
+                        messages: [
+                            { role: "system", content: "You are a helpful assistant." },
+                            ...updatedMessages.map(msg => ({
+                                role: msg.sender === 'user' ? 'user' : 'assistant',
+                                content: msg.text
+                            })),
+                            { role: 'user', content: inputText }
+                        ],
+                        max_tokens: 150,
+                        temperature: 0.9,
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer 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`
+                        }
                     }
-                });
+                );
 
                 const botMessage = {
                     id: Date.now().toString(),
@@ -73,6 +80,8 @@ const ChatChatting = () => {
                 };
                 setMessages(prevMessages => [...prevMessages, botMessage]);
             } catch (error) {
+                console.error("Error:", error.response ? error.response.data : error.message);
+
                 const errorMessage = {
                     id: Date.now().toString(),
                     text: "오류가 발생했습니다. 다시 시도해주세요.",
@@ -82,6 +91,7 @@ const ChatChatting = () => {
             }
         }
     };
+
 
     // 메시지 아이템 렌더링 함수
     const renderItem = ({ item }) => (

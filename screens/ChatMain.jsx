@@ -3,29 +3,28 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, Keyboard
 import { Image } from "expo-image";
 import axios from 'axios';
 import { FontFamily, Color, FontSize } from "../GlobalStyles";
-
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 const ChatChatting = () => {
-    // 상태 변수: 메시지 목록과 입력 텍스트를 관리
     const [messages, setMessages] = useState([
         { id: '1', text: '안녕하세요. 플래니입니다. 당신의 효율적인 공부 계획을 도와드리겠습니다.', sender: 'bot' }
     ]);
     const [inputText, setInputText] = useState("");
-    const keyboardHeight = useRef(new Animated.Value(0)).current;  // useRef로 애니메이션 값 생성
+    const keyboardHeight = useRef(new Animated.Value(0)).current;
+    const flatListRef = useRef(null);
 
-    // 키보드 이벤트 리스너 설정
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", (event) => {
             Animated.timing(keyboardHeight, {
                 duration: 300,
-                toValue: event.endCoordinates.height,  // 키보드 높이만큼 이동
+                toValue: event.endCoordinates.height,
                 useNativeDriver: false
             }).start();
         });
         const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
             Animated.timing(keyboardHeight, {
                 duration: 100,
-                toValue: 0,  // 다시 제자리로 돌아옴
+                toValue: 0,
                 useNativeDriver: false
             }).start();
         });
@@ -36,7 +35,13 @@ const ChatChatting = () => {
         };
     }, []);
 
-    // 메시지 전송 함수
+    useEffect(() => {
+        // 메시지가 추가될 때마다 FlatList를 맨 아래로 스크롤
+        if (flatListRef.current) {
+            flatListRef.current.scrollToEnd({ animated: true });
+        }
+    }, [messages]);
+
     const sendMessage = async () => {
         if (inputText.trim().length > 0) {
             const newMessage = {
@@ -45,19 +50,18 @@ const ChatChatting = () => {
                 sender: 'user'
             };
 
-            // 최신 메시지를 업데이트한 후의 messages 상태를 사용하여 API 요청
-            const updatedMessages = [...messages, newMessage];
-            setMessages(updatedMessages);
+            setMessages(prevMessages => [...prevMessages, newMessage]);
             setInputText("");
 
             try {
                 const response = await axios.post(
+
                     'https://api.openai.com/v1/chat/completions',
                     {
                         model: "gpt-3.5-turbo",
                         messages: [
                             { role: "system", content: "You are a helpful assistant." },
-                            ...updatedMessages.map(msg => ({
+                            ...messages.map(msg => ({
                                 role: msg.sender === 'user' ? 'user' : 'assistant',
                                 content: msg.text
                             })),
@@ -78,6 +82,11 @@ const ChatChatting = () => {
                     text: response.data.choices[0].message.content.trim(),
                     sender: 'bot'
                 };
+                setTimeout(() => {
+                    if (flatListRef.current) {
+                        flatListRef.current.scrollToEnd({ animated: true });
+                    }
+                }, 100);
                 setMessages(prevMessages => [...prevMessages, botMessage]);
             } catch (error) {
                 console.error("Error:", error.response ? error.response.data : error.message);
@@ -92,8 +101,6 @@ const ChatChatting = () => {
         }
     };
 
-
-    // 메시지 아이템 렌더링 함수
     const renderItem = ({ item }) => (
         <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessageContainer : styles.aiMessageContainer]}>
             <View style={item.sender === 'user' ? styles.userMessage : styles.aiMessage}>
@@ -105,7 +112,11 @@ const ChatChatting = () => {
     );
 
     return (
-        <View style={styles.chatChatting}>
+        <KeyboardAvoidingView
+            style={styles.chatChatting}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={50}
+        >
             <View style={styles.bg} />
             <View style={[styles.chatPlannie, styles.chatFlexBox]}>
                 <Image
@@ -116,11 +127,14 @@ const ChatChatting = () => {
                 <Text style={styles.plannie}>Plannie</Text>
             </View>
             <FlatList
+                ref={flatListRef}
                 data={messages}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.chatting}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={[styles.chatting, { paddingBottom: 10 }]}
+                onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
             />
+
             <Animated.View style={[styles.chatBar, { bottom: keyboardHeight }]}>
                 <View style={styles.fabFlexBox}>
                     <TouchableOpacity style={[styles.fab, styles.fabFlexBox]}>
@@ -148,7 +162,7 @@ const ChatChatting = () => {
                     </View>
                 </View>
             </Animated.View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -162,11 +176,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
         width: '100%',
+        height: "auto"
     },
     aiMessageContainer: {
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%',
+        height: "auto"
     },
     aiMessage: {
         backgroundColor: '#F0F0F0',
@@ -216,6 +232,7 @@ const styles = StyleSheet.create({
         position: "absolute",
     },
     fabFlexBox: {
+        paddingTop: 15,
         alignItems: "center",
         flexDirection: "row",
     },
@@ -300,8 +317,9 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 10,
         paddingVertical: 10,
-        marginBottom: 60,
+        paddingBottom: 60,
     },
+
     plusIcon: {
         width: 30,
         height: 30,
@@ -325,7 +343,7 @@ const styles = StyleSheet.create({
     chatWindow: {
         borderRadius: 28,
         width: 321,
-        height: 55,
+        height: 50,
         paddingHorizontal: 23,
         paddingVertical: 6,
         marginLeft: 1,
@@ -334,7 +352,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     chatBar: {
-        height: 100,
+        height: 80,
         backgroundColor: Color.colorAliceblue,
         width: "100%",
         justifyContent: "center",

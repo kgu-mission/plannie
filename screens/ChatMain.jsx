@@ -4,8 +4,10 @@ import { Image } from "expo-image";
 import axios from 'axios';
 import { FontFamily, Color, FontSize } from "../GlobalStyles";
 import { KeyboardAvoidingView, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const ChatChatting = () => {
+    const navigation = useNavigation();
     const [messages, setMessages] = useState([
         { id: '1', text: '안녕하세요. 플래니입니다. 당신의 효율적인 공부 계획을 도와드리겠습니다.', sender: 'bot' }
     ]);
@@ -119,11 +121,13 @@ const ChatChatting = () => {
         >
             <View style={styles.bg} />
             <View style={[styles.chatPlannie, styles.chatFlexBox]}>
-                <Image
-                    style={styles.arrowBackIcon}
-                    contentFit="cover"
-                    source={require("../assets/arrow_back.png")}
-                />
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Image
+                        style={styles.arrowBackIcon}
+                        contentFit="cover"
+                        source={require("../assets/arrow_back.png")}
+                    />
+                </TouchableOpacity>
                 <Text style={styles.plannie}>Plannie</Text>
             </View>
             <FlatList

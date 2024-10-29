@@ -60,7 +60,7 @@ const ChatChatting = () => {
 
                     'https://api.openai.com/v1/chat/completions',
                     {
-                        model: "gpt-3.5-turbo",
+                        model: "ft:gpt-3.5-turbo-0125:personal::A67I2sq4",
                         messages: [
                             { role: "system", content: "You are a helpful assistant." },
                             ...messages.map(msg => ({
@@ -69,7 +69,7 @@ const ChatChatting = () => {
                             })),
                             { role: 'user', content: inputText }
                         ],
-                        max_tokens: 150,
+                        max_tokens: 4096,
                         temperature: 0.9,
                     },
                     {
@@ -135,7 +135,7 @@ const ChatChatting = () => {
                 data={messages}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={[styles.chatting, { paddingBottom: 10 }]}
+                contentContainerStyle={[styles.chatting, { paddingBottom: 40 }]}
                 onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
             />
 

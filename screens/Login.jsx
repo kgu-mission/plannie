@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     inputBox: {
         backgroundColor: '#F5F5F5',
-        borderRadius: 20,
+        borderRadius: 10,
         height: 40,
         justifyContent: 'center',
         paddingHorizontal: 15,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
     loginButton: {
         backgroundColor: '#4183F3',
-        borderRadius: 5,
+        borderRadius: 10,
         width: '90%',
         height: 50,
         justifyContent: 'center',

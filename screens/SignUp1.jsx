@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SignUp1 = ({ navigation }) => {  // navigation prop 추가
+const SignUp1 = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>
@@ -76,15 +76,15 @@ const styles = StyleSheet.create({
         color: '#4183F3',
         position: 'absolute',
         top: 160,
-        right: 20,
+        right: 30,
     },
     formContainer: {
         backgroundColor: '#FFFFFF',
         borderRadius: 37,
         width: 340,
-        paddingVertical: 20,
+        paddingVertical: 40,
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 60,
     },
     inputGroup: {
         width: '100%',
@@ -95,14 +95,15 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#000',
         marginBottom: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
     },
     inputBox: {
-        backgroundColor: '#D9D9D9',
-        borderRadius: 5,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 10,
         height: 40,
         justifyContent: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
+        marginHorizontal: 20,
     },
     inputText: {
         fontSize: 18,
@@ -116,9 +117,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     nextButton: {
-        backgroundColor: '#8FBEFF',
+        backgroundColor: '#4183F3',
         borderRadius: 5,
-        width: '100%',
+        width: '90%',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     nextButtonText: {
         fontSize: 17,
         fontWeight: '600',
-        color: '#000',
+        color: '#FFFFFF',
     },
 });
 

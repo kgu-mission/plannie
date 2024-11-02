@@ -33,6 +33,17 @@ const Login2 = ({ navigation }) => {
                     </View>
                 </View>
 
+                {/* Login Button */}
+                <TouchableOpacity
+                    style={styles.loginButton}
+                    onPress={() => {
+                        // 로그인 로직 또는 MyPageMain으로 이동
+                        navigation.navigate('MyPageMain');
+                    }}
+                >
+                    <Text style={styles.loginButtonText}>로그인</Text>
+                </TouchableOpacity>
+
                 {/* Signup and Find ID/PW Links */}
                 <View style={styles.linksContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('SignUp1')}>
@@ -74,7 +85,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 37,
         width: 315,
-        paddingVertical: 20,
+        paddingVertical: 60,
         alignItems: 'center',
         marginTop: 50,
     },
@@ -88,17 +99,34 @@ const styles = StyleSheet.create({
         color: '#000',
         marginBottom: 5,
         paddingHorizontal: 10,
+        paddingLeft: 30,
+        paddingBottom: 10,
     },
     inputBox: {
         backgroundColor: '#F5F5F5',
-        borderRadius: 5,
+        borderRadius: 20,
         height: 40,
         justifyContent: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
+        marginHorizontal: 20,
     },
     inputText: {
         fontSize: 16,
         color: '#000',
+    },
+    loginButton: {
+        backgroundColor: '#4183F3',
+        borderRadius: 5,
+        width: '90%',
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    loginButtonText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#FFFFFF',
     },
     linksContainer: {
         alignItems: 'center',

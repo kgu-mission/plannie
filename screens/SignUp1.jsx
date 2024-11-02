@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SignUp1 = () => {
+const SignUp1 = ({ navigation }) => {  // navigation prop 추가
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>
@@ -46,7 +46,10 @@ const SignUp1 = () => {
                 <Text style={styles.passwordRequirement}>* 8자 이상의 영문자, 숫자, 특수문자 포함</Text>
 
                 {/* Next Button */}
-                <TouchableOpacity style={styles.nextButton}>
+                <TouchableOpacity
+                    style={styles.nextButton}
+                    onPress={() => navigation.navigate('SignUp2')}  // SignUp2로 이동
+                >
                     <Text style={styles.nextButtonText}>다음</Text>
                 </TouchableOpacity>
             </View>

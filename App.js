@@ -16,6 +16,10 @@ import MyPageProfile from "./screens/MyPageProfile";
 import MyPageNotice from "./screens/MyPageNotice";
 import MyPageAlarm from "./screens/MyPageAlarm";
 import MyPageEnquire from "./screens/MyPageEnquire";
+import SignUp1 from './screens/SignUp1';
+import SignUp2 from './screens/SignUp2';
+import SignUp3 from './screens/SignUp3';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +64,15 @@ export default function App() {
                         <RootStack.Screen
                             name="MyPageEnquire" component={MyPageEnquire}
                             />
+                        <RootStack.Screen
+                            name="SignUp1" component={SignUp1}
+                        />
+                        <RootStack.Screen
+                            name="SignUp2" component={SignUp2}
+                        />
+                        <RootStack.Screen
+                            name="SignUp3" component={SignUp3}
+                        />
 
                     </RootStack.Navigator>
                 </NavigationContainer>

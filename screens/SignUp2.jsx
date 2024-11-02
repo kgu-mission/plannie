@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SignUp2 = () => {
+const SignUp2 = ({ navigation }) => {  // navigation prop 추가
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>
@@ -46,7 +46,10 @@ const SignUp2 = () => {
                 </View>
 
                 {/* Next Button */}
-                <TouchableOpacity style={styles.nextButton}>
+                <TouchableOpacity
+                    style={styles.nextButton}
+                    onPress={() => navigation.navigate('SignUp3')}  // SignUp3로 이동
+                >
                     <Text style={styles.nextButtonText}>다음</Text>
                 </TouchableOpacity>
             </View>

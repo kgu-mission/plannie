@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SignUp3 = () => {
+const SignUp3 = ({ navigation }) => {  // navigation prop 추가
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>
@@ -45,7 +45,10 @@ const SignUp3 = () => {
                 </View>
 
                 {/* Sign Up Button */}
-                <TouchableOpacity style={styles.signupButton}>
+                <TouchableOpacity
+                    style={styles.signupButton}
+                    onPress={() => navigation.navigate('Calendar')}
+                >
                     <Text style={styles.signupButtonText}>회원가입 하기</Text>
                 </TouchableOpacity>
             </View>

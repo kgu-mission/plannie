@@ -21,6 +21,9 @@ import SignUp2 from './screens/SignUp2';
 import SignUp3 from './screens/SignUp3';
 
 
+import ProfileEdit from './screens/ProfileEdit';
+import DeleteAccount from './screens/DeleteAccount';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -73,7 +76,12 @@ export default function App() {
                         <RootStack.Screen
                             name="SignUp3" component={SignUp3}
                         />
-
+                        <RootStack.Screen
+                            name="ProfileEdit" component={ProfileEdit}
+                        />
+                        <RootStack.Screen
+                            name="DeleteAccount" component={DeleteAccount}
+                        />
                     </RootStack.Navigator>
                 </NavigationContainer>
             </SafeAreaProvider>

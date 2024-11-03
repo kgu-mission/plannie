@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const SignUp3 = ({ route, navigation }) => {
     const { email, password, nickname, name, phone } = route.params;
@@ -10,16 +9,19 @@ const SignUp3 = ({ route, navigation }) => {
     const [selectedGender, setSelectedGender] = useState('미선택');
     const [isAddressModalVisible, setAddressModalVisible] = useState(false);
     const [isGenderModalVisible, setGenderModalVisible] = useState(false);
-    const [birthdate, setBirthdate] = useState(null);
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedYear, setSelectedYear] = useState('2000');
+    const [selectedMonth, setSelectedMonth] = useState('1');
+    const [selectedDay, setSelectedDay] = useState('1');
+    const [isBirthModalVisible, setBirthModalVisible] = useState(false);
 
-    const handleConfirm = (date) => {
-        setBirthdate(date);
-        setDatePickerVisibility(false);
-    };
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => (1900 + i).toString());
+    const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
+    const daysInMonth = (year, month) => new Date(year, month, 0).getDate();
+    const days = Array.from({ length: daysInMonth(selectedYear, selectedMonth) }, (_, i) => (i + 1).toString());
 
     const handleSignUp = async () => {
-        const formattedBirthdate = birthdate ? birthdate.toISOString().split('T')[0] : null;
+        const birthdate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')} 00:00:00`;
 
         try {
             const response = await axios.post('http://172.30.1.92:3000/signup', {
@@ -29,7 +31,7 @@ const SignUp3 = ({ route, navigation }) => {
                 name,
                 phone,
                 address: selectedAddress,
-                birth: formattedBirthdate,
+                birth: birthdate,
                 gender: selectedGender
             }, {
                 headers: { 'Content-Type': 'application/json' },
@@ -92,7 +94,7 @@ const SignUp3 = ({ route, navigation }) => {
                             <Picker
                                 selectedValue={selectedAddress}
                                 onValueChange={(itemValue) => setSelectedAddress(itemValue)}
-                                style={styles.picker}
+                                style={styles.addressPicker} // 주소 선택용 스타일
                             >
                                 <Picker.Item label="미선택" value="미선택" />
                                 <Picker.Item label="서울특별시" value="서울특별시" />
@@ -120,22 +122,70 @@ const SignUp3 = ({ route, navigation }) => {
                     </View>
                 </Modal>
 
-                {/* Birthdate Section using DateTimePickerModal */}
+                {/* Birthdate Section */}
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>생년월일</Text>
-                    <TouchableOpacity style={styles.inputBox} onPress={() => setDatePickerVisibility(true)}>
-                        <Text style={styles.inputText}>
-                            {birthdate ? birthdate.toLocaleDateString() : '생년월일 선택'}
-                        </Text>
+                    <TouchableOpacity style={styles.inputBox} onPress={() => setBirthModalVisible(true)}>
+                        <Text style={styles.inputText}>{`${selectedYear}년 ${selectedMonth}월 ${selectedDay}일`}</Text>
                     </TouchableOpacity>
                 </View>
 
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={() => setDatePickerVisibility(false)}
-                />
+                {/* Birthdate Modal */}
+                <Modal
+                    visible={isBirthModalVisible}
+                    transparent={true}
+                    animationType="slide"
+                    onRequestClose={() => setBirthModalVisible(false)}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <View style={styles.birthdateRow}>
+                                <View style={styles.pickerContainer}>
+                                    <Text>연도</Text>
+                                    <Picker
+                                        selectedValue={selectedYear}
+                                        onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                                        style={styles.birthdatePicker}
+                                    >
+                                        {years.map(year => (
+                                            <Picker.Item label={year} value={year} key={year} />
+                                        ))}
+                                    </Picker>
+                                </View>
+
+                                <View style={styles.pickerContainer}>
+                                    <Text>월</Text>
+                                    <Picker
+                                        selectedValue={selectedMonth}
+                                        onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+                                        style={styles.birthdatePicker}
+                                    >
+                                        {months.map(month => (
+                                            <Picker.Item label={month} value={month} key={month} />
+                                        ))}
+                                    </Picker>
+                                </View>
+
+                                <View style={styles.pickerContainer}>
+                                    <Text>일</Text>
+                                    <Picker
+                                        selectedValue={selectedDay}
+                                        onValueChange={(itemValue) => setSelectedDay(itemValue)}
+                                        style={styles.birthdatePicker}
+                                    >
+                                        {days.map(day => (
+                                            <Picker.Item label={day} value={day} key={day} />
+                                        ))}
+                                    </Picker>
+                                </View>
+                            </View>
+
+                            <TouchableOpacity onPress={() => setBirthModalVisible(false)} style={styles.modalButton}>
+                                <Text style={styles.modalButtonText}>확인</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
 
                 {/* Gender Section */}
                 <View style={styles.inputGroup}>
@@ -157,7 +207,7 @@ const SignUp3 = ({ route, navigation }) => {
                             <Picker
                                 selectedValue={selectedGender}
                                 onValueChange={(itemValue) => setSelectedGender(itemValue)}
-                                style={styles.picker}
+                                style={styles.addressPicker} // 주소 Picker 스타일 재사용
                             >
                                 <Picker.Item label="미선택" value="미선택" />
                                 <Picker.Item label="남성" value="남성" />
@@ -260,6 +310,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
     },
+    birthdateRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+    },
+    pickerContainer: {
+        flex: 1,
+        alignItems: 'center',
+    },
     modalButton: {
         marginTop: 20,
         backgroundColor: '#4183F3',
@@ -271,8 +330,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
     },
-    picker: {
-        width: '100%',
+    addressPicker: {
+        width: 200,
+        fontSize: 16,
+    },
+    birthdatePicker: {
+        width: 110,
+        fontSize: 14,
     },
 });
 

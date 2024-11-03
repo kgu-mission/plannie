@@ -45,7 +45,7 @@ const Login2 = ({ navigation }) => {
                     <View style={styles.inputBox}>
                         <TextInput
                             style={styles.inputText}
-                            placeholder="아이디를 입력하세요"
+                            placeholder="이메일을 입력하세요"
                             placeholderTextColor="#878787"
                             value={email}
                             onChangeText={setEmail}

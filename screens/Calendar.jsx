@@ -102,7 +102,7 @@ const Calendar = () => {
     };
 
     return (
-        <View style={styles.calendarContainer}>
+        <View style={styles.calendar}>
             <View style={[styles.calPlannie, styles.calFlexBox]}>
                 <Text style={styles.calLogo}>Plannie</Text>
                 <Image style={styles.calSearch} contentFit="cover" source={require("../assets/search.png")} />
@@ -182,7 +182,7 @@ const styles1 = StyleSheet.create({
     },
     scheduleListContainer: {
         paddingHorizontal: 20,
-        maxHeight: 200,
+        maxHeight: 270,
         marginTop: 10,
         backgroundColor: '#f4f4f4',
         borderTopWidth: 1,

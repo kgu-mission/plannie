@@ -7,13 +7,18 @@ const styles = StyleSheet.create({
         height: "100%",
         overflow: "hidden",
         width: "100%",
+        position: 'absolute', // 하단 고정을 위해 추가
     },
     scheduleContainer: {
         padding: 10,
         marginTop: 0,
         backgroundColor: '#f4f4f4',
         borderTopWidth: 1,
+        position: 'absolute', // 하단 고정을 위해 추가
+        bottom: 0,            // 하단 위치
         borderTopColor: '#ddd',
+        width: '100%',        // 화면 전체 너비
+        marginBottom: 60
     },
     calPlannie: {
         top: 60,

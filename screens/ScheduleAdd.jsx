@@ -42,6 +42,28 @@ const ScheduleAdd = ({ selectedDate }) => {
         fetchSchedules();
     }, [apiDate]);
 
+    const toggleCheckbox = async (scheduleId, currentCheckBoxState) => {
+        const token = await AsyncStorage.getItem('userToken');
+        try {
+            // 서버에 check_box 상태 업데이트 요청
+            await axios.put(
+                `http://localhost:3000/planner/${scheduleId}`,
+                { check_box: !currentCheckBoxState },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            // UI 업데이트: 체크박스 상태를 업데이트
+            setSchedules(prevSchedules =>
+                prevSchedules.map(schedule =>
+                    schedule.id === scheduleId ? { ...schedule, check_box: !currentCheckBoxState } : schedule
+                )
+            );
+        } catch (error) {
+            console.error("Failed to update schedule:", error);
+            Alert.alert("오류", "일정 상태 업데이트에 실패했습니다.");
+        }
+    };
+
     return (
         <View style={styles.scheduleAdd}>
             <Text style={[styles.schDate, styles.textTypo]}>{formattedDate}</Text>
@@ -52,10 +74,14 @@ const ScheduleAdd = ({ selectedDate }) => {
                 ) : schedules.length > 0 ? (
                     schedules.map((schedule, index) => (
                         <View key={index} style={[styles.schList1, styles.schFlexBox]}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => toggleCheckbox(schedule.id, schedule.check_box)}>
                                 <Image
                                     style={styles.iconLayout}
-                                    source={require("../assets/Square.png")}
+                                    source={
+                                        schedule.check_box
+                                            ? require("../assets/nc_check.png") // 체크된 상태
+                                            : require("../assets/Square.png")    // 체크되지 않은 상태
+                                    }
                                 />
                             </TouchableOpacity>
                             <Text style={[styles.text, styles.textTypo]}>

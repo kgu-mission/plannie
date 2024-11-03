@@ -23,6 +23,7 @@ import SignUp3 from './screens/SignUp3';
 
 import ProfileEdit from './screens/ProfileEdit';
 import DeleteAccount from './screens/DeleteAccount';
+import ScheduleAdd from "./screens/ScheduleAdd";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +82,9 @@ export default function App() {
                         />
                         <RootStack.Screen
                             name="DeleteAccount" component={DeleteAccount}
+                        />
+                        <RootStack.Screen
+                            name="ScheduleAdd" component={ScheduleAdd}
                         />
                     </RootStack.Navigator>
                 </NavigationContainer>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import axios from 'axios';
+
+import { checkEmailAvailability } from './api/signup';
 
 const SignUp1 = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -15,8 +16,7 @@ const SignUp1 = ({ navigation }) => {
 
         try {
             // 이메일을 소문자로 변환하여 서버로 전송
-            const response = await axios.get(`http://localhost:3000/users/check/${email.toLowerCase()}`);
-
+            const response = await checkEmailAvailability(email);
             // 이메일이 이미 존재하는 경우 (200 OK 응답 시)
             if (response.status === 200) {
                 Alert.alert('오류', '이미 사용 중인 이메일입니다.');

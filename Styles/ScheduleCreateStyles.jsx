@@ -34,6 +34,45 @@ const styles = StyleSheet.create({
         height: 640,
         marginTop: 20,
     },
+    pickerTouchable: {
+        width: '100%',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 7,
+        borderColor: Color.schemesOutline,
+        borderWidth: 1,
+        height: 40,
+        marginVertical: 10, // Adds spacing between elements
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        padding: 20,
+
+    },
+    scrollViewContent: {
+        paddingBottom: 40, // 추가 여유 공간을 위해 패딩 추가
+    },
+    modalOption: {
+        backgroundColor: "#fff",
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        width: '100%',
+        alignItems: "center",
+
+    },
+    modalOptionText: {
+        fontSize: 18,
+        color: "#333",
+    },
+    modalContent: {
+        paddingVertical: 20,
+        alignItems: "center",
+    },
     ncScheduleTitle: {
         fontSize: 25,
         fontWeight: "600",

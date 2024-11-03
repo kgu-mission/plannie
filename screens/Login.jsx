@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import {loginUser} from "./api/user";
 
 const Login2 = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -9,10 +9,7 @@ const Login2 = ({ navigation }) => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/users/login', {
-                email,
-                password
-            });
+            const response = await loginUser('chanhyuk50@naver.com', 'az@485422');
 
             if (response.status === 200) {
                 const { token } = response.data;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import axios from 'axios';
+import {signUp} from "./api/signup";
+
 
 const SignUp3 = ({ route, navigation }) => {
     const { email, password, nickname, name, phone } = route.params;
@@ -24,7 +25,7 @@ const SignUp3 = ({ route, navigation }) => {
         const birthdate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')} 00:00:00`;
 
         try {
-            const response = await axios.post('http://localhost:3000/signup', {
+            const response = await signUp({
                 email,
                 password,
                 nickname,
@@ -32,9 +33,7 @@ const SignUp3 = ({ route, navigation }) => {
                 phone,
                 address: selectedAddress,
                 birth: birthdate,
-                gender: selectedGender
-            }, {
-                headers: { 'Content-Type': 'application/json' },
+                gender: selectedGender,
             });
 
             if (response.status === 201) {
@@ -43,7 +42,6 @@ const SignUp3 = ({ route, navigation }) => {
             }
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data.error === '이미 등록된 이메일입니다.') {
-                // 이미 등록된 이메일일 경우
                 Alert.alert(
                     '오류',
                     '이미 사용 중인 이메일입니다. 다시 시도하세요.',

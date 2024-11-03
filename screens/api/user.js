@@ -1,17 +1,14 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { API_URL } from '@env'; // 환경변수를 불러오는 설정
 // 로그인 API
-export const login = async (email, password) => {
+export const loginUser = async (email, password) => {
     try {
-        const response = await axios.post('http://localhost:5000/auth/login', { email, password });
-        
-        // 로그인 성공 시 토큰을 AsyncStorage에 저장
-        await AsyncStorage.setItem('token', response.data.token);
-        
-        return response.data;
+        const response = await axios.post(`${API_URL}/users/login`, { email, password }, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return response;
     } catch (error) {
-        console.error('로그인 오류:', error.message);
         throw error;
     }
 };
@@ -21,7 +18,7 @@ export const updateUserProfile = async (userData) => {
     try {
         // 토큰을 AsyncStorage에서 가져오기
         const token = await AsyncStorage.getItem('token');
-        
+
         if (!token) {
             throw new Error('로그인이 필요합니다.');
         }
@@ -45,7 +42,7 @@ export const updateUserProfile = async (userData) => {
 export const deleteUser = async () => {
     try {
         const token = await AsyncStorage.getItem('token');
-        
+
         if (!token) throw new Error('토큰이 없습니다. 로그인 해주세요.');
 
         const response = await axios.delete('http://localhost:5000/user/delete', {

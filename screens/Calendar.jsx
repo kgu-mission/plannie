@@ -7,26 +7,32 @@ import BottomNav from "../nav/BottomNav";
 import ScheduleAdd from "./ScheduleAdd";
 import { useNavigation } from "@react-navigation/native";
 
+// 일정 데이터 예시
+const dummySchedules = [
+    { id: 1, title: "미적분 2단원 기출", date: "2024-11-08", time: "13:00 - 14:00", notification: "없음", repetition: "없음", memo: "복습 필요" },
+    { id: 2, title: "물리 3단원 개념 정리", date: "2024-11-08", time: "15:00 - 16:00", notification: "없음", repetition: "없음", memo: "개념 확실히 이해" },
+    // 더 많은 일정 추가 가능
+];
+
 const Calendar = () => {
     const navigation = useNavigation();
     const [currentDate, setCurrentDate] = React.useState(new Date());
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
 
-    // Check for token in AsyncStorage when component mounts
+    // Token 체크
     React.useEffect(() => {
         const checkToken = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
                 if (!token) {
                     Alert.alert("Session Expired", "Please log in again.");
-                    navigation.navigate('Login'); // Redirect to Login if token is missing
+                    navigation.navigate('Login');
                 }
             } catch (error) {
                 console.error("Error retrieving token:", error);
             }
         };
-
         checkToken();
     }, []);
 
@@ -48,14 +54,12 @@ const Calendar = () => {
         const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
         const daysInMonth = [];
 
-        // Fill the first week with empty days if the month doesn't start on Sunday
         for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
             daysInMonth.push(
                 <View style={styles.day} key={`empty-${i}`} />
             );
         }
 
-        // Fill the days of the month
         for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
             daysInMonth.push(
@@ -65,7 +69,6 @@ const Calendar = () => {
             );
         }
 
-        // Add extra empty days to fill the last week
         while (daysInMonth.length % 7 !== 0) {
             daysInMonth.push(
                 <View style={styles.day} key={`empty-end-${daysInMonth.length}`} />
@@ -151,8 +154,8 @@ const Calendar = () => {
                             <View>
                                 <ScheduleAdd
                                     selectedDate={selectedDate}
-                                    year={selectedDate?.getFullYear()}
-                                    month={selectedDate?.getMonth() + 1}
+                                    schedules={dummySchedules.filter(schedule => schedule.date === selectedDate.toISOString().split('T')[0])} // 선택된 날짜에 맞는 일정 필터링
+                                    onClose={() => setModalVisible(false)}
                                 />
                             </View>
                         </TouchableWithoutFeedback>

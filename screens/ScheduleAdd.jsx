@@ -1,42 +1,23 @@
 import * as React from "react";
-import { Text, View, TouchableOpacity, Image, Modal, ScrollView, ActivityIndicator, Alert } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, View, TouchableOpacity, Modal, ScrollView, ActivityIndicator, Alert, Image } from "react-native";
 import styles from "../Styles/ScheduleAddStyles";
-import ScheduleCreate from "./ScheduleCreate";
-import axios from "axios";
+import ScheduleDetail from "./ScheduleDetail"; // 일정 세부 정보 컴포넌트
+import ScheduleCreate from "./ScheduleCreate";  // 새로운 일정 생성 컴포넌트
 
-const ScheduleAdd = ({ selectedDate }) => {
-    const [modalVisible, setModalVisible] = React.useState(false);
-    const [schedules, setSchedules] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
+const ScheduleAdd = ({ selectedDate, schedules, onClose }) => {
+    const [detailModalVisible, setDetailModalVisible] = React.useState(false);
+    const [createModalVisible, setCreateModalVisible] = React.useState(false); // 추가 버튼 모달 상태
+    const [selectedSchedule, setSelectedSchedule] = React.useState(null); // 선택된 일정 저장
 
-    // 선택된 날짜를 한국어 포맷으로 표시
     const formattedDate = selectedDate
         ? new Date(selectedDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
         : '';
 
-    // 서버에서 해당 날짜의 일정 데이터 가져오기
-    React.useEffect(() => {
-        const fetchSchedules = async () => {
-            if (!selectedDate) return;
-
-            setLoading(true);
-            try {
-                const token = await AsyncStorage.getItem('userToken');
-                const response = await axios.get(`http://172.30.1.92:3000/planner?date=${selectedDate}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setSchedules(response.data.schedules); // 서버에서 받은 일정 리스트 설정
-            } catch (error) {
-                console.error("일정 가져오기 오류:", error);
-                Alert.alert("오류", "일정을 불러오는 데 실패했습니다.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSchedules();
-    }, [selectedDate]);
+    // 일정 클릭 핸들러
+    const handleScheduleClick = (schedule) => {
+        setSelectedSchedule(schedule);
+        setDetailModalVisible(true);
+    };
 
     return (
         <View style={styles.scheduleAdd}>
@@ -44,21 +25,17 @@ const ScheduleAdd = ({ selectedDate }) => {
 
             {/* 일정 리스트 */}
             <ScrollView style={styles.schList}>
-                {loading ? (
-                    <ActivityIndicator size="large" color="#0000ff" />
+                {schedules.length === 0 ? (
+                    <Text>일정이 없습니다.</Text>
                 ) : (
                     schedules.map((schedule, index) => (
-                        <View key={index} style={[styles.schList1, styles.schFlexBox]}>
-                            <TouchableOpacity>
-                                <Image
-                                    style={styles.iconLayout}
-                                    source={require("../assets/Square.png")}
-                                />
-                            </TouchableOpacity>
-                            <Text style={[styles.text, styles.textTypo]}>
-                                {schedule.title} - {schedule.start_time} ~ {schedule.end_time}
-                            </Text>
-                        </View>
+                        <TouchableOpacity key={index} onPress={() => handleScheduleClick(schedule)}>
+                            <View style={[styles.schList1, styles.schFlexBox]}>
+                                <Text style={[styles.text, styles.textTypo]}>
+                                    {schedule.title} - {schedule.time}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
                     ))
                 )}
             </ScrollView>
@@ -66,7 +43,7 @@ const ScheduleAdd = ({ selectedDate }) => {
             {/* 추가 버튼 */}
             <TouchableOpacity
                 style={styles.schPlusIcon}
-                onPress={() => setModalVisible(true)}
+                onPress={() => setCreateModalVisible(true)}
             >
                 <Image
                     style={styles.iconLayout}
@@ -78,13 +55,25 @@ const ScheduleAdd = ({ selectedDate }) => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
+                visible={createModalVisible}
+                onRequestClose={() => setCreateModalVisible(false)}
             >
                 <View style={styles.modalBackground}>
-                    <ScheduleCreate selectedDate={selectedDate} closeModal={() => setModalVisible(false)} />
+                    <ScheduleCreate selectedDate={selectedDate} closeModal={() => setCreateModalVisible(false)} />
+                </View>
+            </Modal>
+
+            {/* 일정 상세 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={detailModalVisible}
+                onRequestClose={() => setDetailModalVisible(false)}
+            >
+                <View style={styles.modalBackground}>
+                    {selectedSchedule && (
+                        <ScheduleDetail schedule={selectedSchedule} onClose={() => setDetailModalVisible(false)} />
+                    )}
                 </View>
             </Modal>
         </View>

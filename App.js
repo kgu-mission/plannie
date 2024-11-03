@@ -63,10 +63,10 @@ export default function App() {
                         />
                         <RootStack.Screen
                             name="MyPageAlarm" component={MyPageAlarm}
-                            />
+                        />
                         <RootStack.Screen
                             name="MyPageEnquire" component={MyPageEnquire}
-                            />
+                        />
                         <RootStack.Screen
                             name="SignUp1" component={SignUp1}
                         />

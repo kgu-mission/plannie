@@ -76,7 +76,7 @@ const MyPageMain = () => {
                     </View>
                     <View style={styles.mpProfileButtonContent}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('MyPageProfile')}
+                            onPress={() => navigation.navigate('ProfileEdit')}
                             contentFit="cover">
                             <View style={styles.profileFlexBox}>
                                 <Text style={styles.mpProfileButton}>프로필 편집</Text>
@@ -139,9 +139,11 @@ const MyPageMain = () => {
             <TouchableOpacity style={[styles.mpLogoutButton, styles.buttonLayout]} onPress={handleLogout}>
                 <Text style={styles.textTypo}>로그아웃</Text>
             </TouchableOpacity>
-            <View style={[styles.mpWithdrawalButton, styles.buttonLayout]}>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('DeleteAccount')}
+                style={[styles.mpWithdrawalButton, styles.buttonLayout]} >
                 <Text style={[styles.text, styles.textTypo]}>탈퇴하기</Text>
-            </View>
+            </TouchableOpacity>
             <BottomNav/>
         </View>
     );

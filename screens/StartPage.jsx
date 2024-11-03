@@ -16,7 +16,7 @@ const StartPage = () => {
             </Text>
             <TouchableOpacity  onPress = {() => navigation.navigate('Login')}
                                style = {[styles.spStartButton, styles.planniePosition]}>
-                <Text style={styles.planit}>Plan:it 시작하기</Text>
+                <Text style={styles.planit}>Plannie 시작하기</Text>
             </TouchableOpacity>
             <Image
                 style={[styles.plannieIcon, styles.planniePosition]}

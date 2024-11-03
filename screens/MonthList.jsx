@@ -11,7 +11,7 @@ const MonthList = () => {
     React.useEffect(() => {
         const fetchSchedules = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/planner/month/2024/06'); // 적절히 연도와 월을 수정
+                const response = await axios.get('http://172.30.1.92:3000/planner/month/2024/06'); // 적절히 연도와 월을 수정
                 setSchedules(response.data);
             } catch (err) {
                 console.error("일정 조회 오류:", err);

@@ -10,46 +10,43 @@ const ScheduleAdd = ({ selectedDate }) => {
     const [schedules, setSchedules] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
 
-    const formattedDate = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
-    const apiDate = selectedDate ? new Date(selectedDate).toISOString().split('T')[0].replace(/-/g, '.') : '';
+    // 선택된 날짜를 한국어 포맷으로 표시
+    const formattedDate = selectedDate
+        ? new Date(selectedDate).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
+        : '';
 
+    // 서버에서 해당 날짜의 일정 데이터 가져오기
     React.useEffect(() => {
         const fetchSchedules = async () => {
-            if (!apiDate) return;
+            if (!selectedDate) return;
 
             setLoading(true);
             try {
                 const token = await AsyncStorage.getItem('userToken');
-                const response = await axios.get(`http://localhost:3000/planner/date/?date=${apiDate}`, {
+                const response = await axios.get(`http://localhost:3000/planner?date=${selectedDate}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-
-                console.log("Schedules fetched:", response.data);
-                setSchedules(Array.isArray(response.data) ? response.data : []);
+                setSchedules(response.data.schedules); // 서버에서 받은 일정 리스트 설정
             } catch (error) {
-                if (error.response && error.response.status === 404) {
-                    setSchedules([]);
-                    Alert.alert("알림", "해당 날짜에 일정이 없습니다.");
-                } else {
-                    console.error("일정 가져오기 오류:", error);
-                    Alert.alert("오류", "일정을 불러오는 데 실패했습니다.");
-                }
+                console.error("일정 가져오기 오류:", error);
+                Alert.alert("오류", "일정을 불러오는 데 실패했습니다.");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchSchedules();
-    }, [apiDate]);
+    }, [selectedDate]);
 
     return (
         <View style={styles.scheduleAdd}>
             <Text style={[styles.schDate, styles.textTypo]}>{formattedDate}</Text>
 
+            {/* 일정 리스트 */}
             <ScrollView style={styles.schList}>
                 {loading ? (
                     <ActivityIndicator size="large" color="#0000ff" />
-                ) : schedules.length > 0 ? (
+                ) : (
                     schedules.map((schedule, index) => (
                         <View key={index} style={[styles.schList1, styles.schFlexBox]}>
                             <TouchableOpacity>
@@ -59,15 +56,14 @@ const ScheduleAdd = ({ selectedDate }) => {
                                 />
                             </TouchableOpacity>
                             <Text style={[styles.text, styles.textTypo]}>
-                                {schedule.title} - {schedule.start_time.slice(0, 5)} ~ {schedule.end_time.slice(0, 5)}
+                                {schedule.title} - {schedule.start_time} ~ {schedule.end_time}
                             </Text>
                         </View>
                     ))
-                ) : (
-                    <Text style={styles.noScheduleText}>해당 날짜에 일정이 없습니다.</Text>
                 )}
             </ScrollView>
 
+            {/* 추가 버튼 */}
             <TouchableOpacity
                 style={styles.schPlusIcon}
                 onPress={() => setModalVisible(true)}
@@ -78,11 +74,14 @@ const ScheduleAdd = ({ selectedDate }) => {
                 />
             </TouchableOpacity>
 
+            {/* 일정 생성 모달 */}
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
-                onRequestClose={() => setModalVisible(!modalVisible)}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
             >
                 <View style={styles.modalBackground}>
                     <ScheduleCreate selectedDate={selectedDate} closeModal={() => setModalVisible(false)} />

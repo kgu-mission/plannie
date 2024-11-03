@@ -24,7 +24,7 @@ const MyPageMain = () => {
                     return;
                 }
 
-                const response = await axios.get('http://localhost:3000/users/profile', {
+                const response = await axios.get('http://172.30.1.92:3000/users/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 

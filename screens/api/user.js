@@ -1,14 +1,17 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from '@env'; // 환경변수를 불러오는 설정
+
 // 로그인 API
-export const loginUser = async (email, password) => {
+export const login = async (email, password) => {
     try {
-        const response = await axios.post(`${API_URL}/users/login`, { email, password }, {
-            headers: { 'Content-Type': 'application/json' },
-        });
-        return response;
+        const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+
+        // 로그인 성공 시 토큰을 AsyncStorage에 저장
+        await AsyncStorage.setItem('token', response.data.token);
+
+        return response.data;
     } catch (error) {
+        console.error('로그인 오류:', error.message);
         throw error;
     }
 };

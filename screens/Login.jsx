@@ -10,8 +10,8 @@ const Login2 = ({ navigation }) => {
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:3000/users/login', {
-                email,
-                password
+                email: "chanhyuk50@naver.com",
+                password: "az@485422"
             });
 
             if (response.status === 200) {

@@ -24,7 +24,7 @@ const MyPageMain = () => {
                     return;
                 }
 
-                const response = await axios.get('http://172.30.1.92:3000/users/profile', {
+                const response = await axios.get('http://localhost:3000/users/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -82,18 +82,16 @@ const MyPageMain = () => {
                                 <Text style={styles.mpProfileButton}>프로필 편집</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('MyPageProfile')}
-                            contentFit="cover">
-                            <View style={[styles.mpProfileModify, styles.profileFlexBox]}>
-                                <Text style={styles.mpProfileButton}>정보 수정</Text>
-                            </View>
-                        </TouchableOpacity>
+
                     </View>
                 </View>
             </View>
-            <View style={styles.mpBanner}>
-            </View>
+
+                <Image
+                    style={styles.mpBanner}
+                    source={require("../assets/logo.png")}
+                />
+
             <View style={styles.mpContentFrame}>
                 <View style={[styles.mpContent, styles.contentFlexBox]}>
                     <Text style={styles.textTypo}>공지사항</Text>

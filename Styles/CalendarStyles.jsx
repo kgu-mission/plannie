@@ -8,6 +8,13 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         width: "100%",
     },
+    scheduleContainer: {
+        padding: 10,
+        marginTop: 0,
+        backgroundColor: '#f4f4f4',
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
+    },
     calPlannie: {
         top: 60,
         // left: 157,

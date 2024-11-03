@@ -7,7 +7,6 @@ import styles from '../Styles/CalendarStyles';
 import BottomNav from "../nav/BottomNav";
 import ScheduleAdd from "./ScheduleAdd";
 import { useNavigation } from "@react-navigation/native";
-
 const Calendar = () => {
     const navigation = useNavigation();
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -64,7 +63,6 @@ const Calendar = () => {
         setModalVisible(true);
     };
 
-
     // 월 이동 이벤트
     const handlePreviousMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
     const handleNextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
@@ -104,7 +102,7 @@ const Calendar = () => {
     };
 
     return (
-        <View style={styles.calendar}>
+        <View style={styles.calendarContainer}>
             <View style={[styles.calPlannie, styles.calFlexBox]}>
                 <Text style={styles.calLogo}>Plannie</Text>
                 <Image style={styles.calSearch} contentFit="cover" source={require("../assets/search.png")} />
@@ -146,53 +144,76 @@ const Calendar = () => {
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-            <MonthlyScheduleList schedules={schedules} />
+
+            {/* Monthly Schedule List Section */}
+            <View style={styles.scheduleContainer}>
+                <Text style={styles1.scheduleTitle}>이 달의 일정</Text>
+                <MonthlyScheduleList schedules={schedules} />
+            </View>
         </View>
     );
 };
-// Component to display monthly schedules
+
+// Monthly Schedule List Component
 const MonthlyScheduleList = ({ schedules }) => {
-    if (schedules.length === 0) return <Text style={styles1.noScheduleText}>No schedules for this month.</Text>;
+    if (schedules.length === 0) return <Text style={styles1.noScheduleText}>이번 달에 등록된 일정이 없습니다.</Text>;
 
     return (
         <ScrollView style={styles1.scheduleListContainer}>
             {schedules.map((schedule, index) => (
                 <View key={index} style={styles1.scheduleItem}>
                     <Text style={styles1.scheduleDate}>{schedule.start_day}</Text>
-                    <Text style={styles1.scheduleTime}>{schedule.start_time} - {schedule.end_time}</Text>
-                    <Text style={styles1.scheduleTitle}>{schedule.title}</Text>
+                    <Text style={styles1.scheduleTime}>
+                        {schedule.start_time} - {schedule.end_time}
+                    </Text>
+                    <Text style={styles1.scheduleTitleText}>{schedule.title}</Text>
                 </View>
+
             ))}
         </ScrollView>
     );
 };
-
-// Styles
 const styles1 = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    calendarContainer: {
-        marginBottom: 20,
+    scheduleTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginVertical: 10,
+        textAlign: 'center',
     },
     scheduleListContainer: {
         paddingHorizontal: 20,
         maxHeight: 200,
+        marginTop: 10,
+        backgroundColor: '#f4f4f4',
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
     },
     scheduleItem: {
         marginBottom: 15,
-        padding: 10,
-        borderRadius: 5,
-        backgroundColor: '#f9f9f9',
+        padding: 15,
+        borderRadius: 8,
+        backgroundColor: '#ffffff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 2,
     },
     scheduleDate: {
         fontWeight: 'bold',
+        fontSize: 16,
+        color: '#333',
     },
     scheduleTime: {
+        fontSize: 14,
+        color: '#555',
+        marginTop: 5,
         fontStyle: 'italic',
     },
-    scheduleTitle: {
-        marginTop: 5,
+    scheduleTitleText: {
+        fontSize: 15,
+        color: '#333',
+        marginTop: 8,
     },
     noScheduleText: {
         textAlign: 'center',
@@ -200,6 +221,8 @@ const styles1 = StyleSheet.create({
         color: '#888',
     },
 });
+
+
 const modalStyles = StyleSheet.create({
     modalBackground: {
         flex: 1,

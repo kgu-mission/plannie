@@ -1,16 +1,34 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TouchableOpacity, Modal, StyleSheet, TouchableWithoutFeedback, Alert } from "react-native";
 import { Image } from "expo-image";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../Styles/CalendarStyles';
 import BottomNav from "../nav/BottomNav";
 import ScheduleAdd from "./ScheduleAdd";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 const Calendar = () => {
     const navigation = useNavigation();
     const [currentDate, setCurrentDate] = React.useState(new Date());
     const [selectedDate, setSelectedDate] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
+
+    // Check for token in AsyncStorage when component mounts
+    React.useEffect(() => {
+        const checkToken = async () => {
+            try {
+                const token = await AsyncStorage.getItem('userToken');
+                if (!token) {
+                    Alert.alert("Session Expired", "Please log in again.");
+                    navigation.navigate('Login'); // Redirect to Login if token is missing
+                }
+            } catch (error) {
+                console.error("Error retrieving token:", error);
+            }
+        };
+
+        checkToken();
+    }, []);
 
     const handlePreviousMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
@@ -131,7 +149,11 @@ const Calendar = () => {
                     <View style={styles1.modalBackground}>
                         <TouchableWithoutFeedback>
                             <View>
-                                <ScheduleAdd selectedDate={selectedDate} />
+                                <ScheduleAdd
+                                    selectedDate={selectedDate}
+                                    year={selectedDate?.getFullYear()}
+                                    month={selectedDate?.getMonth() + 1}
+                                />
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

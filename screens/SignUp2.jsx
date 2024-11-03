@@ -1,7 +1,24 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SignUp2 = ({ navigation }) => {
+const SignUp2 = ({ navigation, route }) => {
+    const { email, password } = route.params; // SignUp1에서 전달된 데이터
+    const [nickname, setNickname] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const handleNext = () => {
+        // 입력받은 데이터를 SignUp3로 전달
+        navigation.navigate('SignUp3', {
+            email,
+            password,
+            nickname,
+            name,
+            phone
+        });
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>
@@ -14,8 +31,10 @@ const SignUp2 = ({ navigation }) => {
                     <View style={styles.inputBox}>
                         <TextInput
                             style={styles.inputText}
-                            placeholder=""
+                            placeholder="닉네임 입력"
                             placeholderTextColor="#878787"
+                            value={nickname}
+                            onChangeText={setNickname}
                         />
                     </View>
                 </View>
@@ -26,8 +45,10 @@ const SignUp2 = ({ navigation }) => {
                     <View style={styles.inputBox}>
                         <TextInput
                             style={styles.inputText}
-                            placeholder=""
+                            placeholder="이름 입력"
                             placeholderTextColor="#878787"
+                            value={name}
+                            onChangeText={setName}
                         />
                     </View>
                 </View>
@@ -38,18 +59,17 @@ const SignUp2 = ({ navigation }) => {
                     <View style={styles.inputBox}>
                         <TextInput
                             style={styles.inputText}
-                            placeholder=""
+                            placeholder="전화번호 입력"
                             placeholderTextColor="#878787"
                             keyboardType="phone-pad"
+                            value={phone}
+                            onChangeText={setPhone}
                         />
                     </View>
                 </View>
 
                 {/* Next Button */}
-                <TouchableOpacity
-                    style={styles.nextButton}
-                    onPress={() => navigation.navigate('SignUp3')}
-                >
+                <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
                     <Text style={styles.nextButtonText}>다음</Text>
                 </TouchableOpacity>
             </View>

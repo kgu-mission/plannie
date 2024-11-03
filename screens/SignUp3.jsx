@@ -1,29 +1,73 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import axios from 'axios';
 
-const SignUp3 = ({ navigation }) => {
+const SignUp3 = ({ route, navigation }) => {
+    const { email, password, nickname, name, phone } = route.params;
     const [selectedAddress, setSelectedAddress] = useState('미선택');
     const [selectedGender, setSelectedGender] = useState('미선택');
     const [isAddressModalVisible, setAddressModalVisible] = useState(false);
     const [isGenderModalVisible, setGenderModalVisible] = useState(false);
-
-    // 생년월일 Picker 관련 상태 변수
     const [selectedYear, setSelectedYear] = useState('2000');
     const [selectedMonth, setSelectedMonth] = useState('1');
     const [selectedDay, setSelectedDay] = useState('1');
     const [isBirthModalVisible, setBirthModalVisible] = useState(false);
 
-    // 연도 배열 생성 (1900년부터 현재 연도까지)
     const currentYear = new Date().getFullYear();
     const years = Array.from({ length: currentYear - 1900 + 1 }, (_, i) => (1900 + i).toString());
-
-    // 월 배열 생성
     const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
-
-    // 선택된 월에 따른 일 수 설정
     const daysInMonth = (year, month) => new Date(year, month, 0).getDate();
     const days = Array.from({ length: daysInMonth(selectedYear, selectedMonth) }, (_, i) => (i + 1).toString());
+
+    const handleSignUp = async () => {
+        const birthdate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')} 00:00:00`;
+
+        try {
+            const response = await axios.post('http://localhost:3000/signup', {
+                email,
+                password,
+                nickname,
+                name,
+                phone,
+                address: selectedAddress,
+                birth: birthdate,
+                gender: selectedGender
+            }, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (response.status === 201) {
+                Alert.alert('회원가입 성공', response.data.message);
+                navigation.navigate('Login');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 400 && error.response.data.error === '이미 등록된 이메일입니다.') {
+                // 이미 등록된 이메일일 경우
+                Alert.alert(
+                    '오류',
+                    '이미 사용 중인 이메일입니다. 다시 시도하세요.',
+                    [
+                        {
+                            text: '확인',
+                            onPress: () => {
+                                navigation.navigate('SignUp1', {
+                                    email,
+                                    password,
+                                    nickname,
+                                    name,
+                                    phone,
+                                });
+                            },
+                        },
+                    ]
+                );
+            } else {
+                console.error('회원가입 오류:', error);
+                Alert.alert('오류', '회원가입 중 알 수 없는 오류가 발생했습니다.');
+            }
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -170,16 +214,15 @@ const SignUp3 = ({ navigation }) => {
                 </Modal>
 
                 {/* Sign Up Button */}
-                <TouchableOpacity
-                    style={styles.signupButton}
-                    onPress={() => navigation.navigate('Calendar')}
-                >
+                <TouchableOpacity style={styles.signupButton} onPress={handleSignUp}>
                     <Text style={styles.signupButtonText}>회원가입 하기</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     container: {

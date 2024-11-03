@@ -15,7 +15,7 @@ const SignUp1 = ({ navigation }) => {
 
         try {
             // 이메일을 소문자로 변환하여 서버로 전송
-            const response = await axios.get(`http://localhost:3000/users/check/${email.toLowerCase()}`);
+            const response = await axios.get(`http://172.30.1.92:3000/users/check/${email.toLowerCase()}`);
 
             // 이메일이 이미 존재하는 경우 (200 OK 응답 시)
             if (response.status === 200) {

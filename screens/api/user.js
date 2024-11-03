@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // 로그인 API
 export const login = async (email, password) => {
     try {
-        const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+        const response = await axios.post('http://172.30.1.92:5000/auth/login', { email, password });
         
         // 로그인 성공 시 토큰을 AsyncStorage에 저장
         await AsyncStorage.setItem('token', response.data.token);
@@ -27,7 +27,7 @@ export const updateUserProfile = async (userData) => {
         }
 
         // 토큰을 Authorization 헤더에 포함하여 요청 전송
-        const response = await axios.put('http://localhost:5000/user/update', userData, {
+        const response = await axios.put('http://172.30.1.92:5000/user/update', userData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ export const deleteUser = async () => {
         
         if (!token) throw new Error('토큰이 없습니다. 로그인 해주세요.');
 
-        const response = await axios.delete('http://localhost:5000/user/delete', {
+        const response = await axios.delete('http://172.30.1.92:5000/user/delete', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

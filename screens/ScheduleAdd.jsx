@@ -23,7 +23,7 @@ const ScheduleAdd = ({ selectedDate }) => {
             setLoading(true);
             try {
                 const token = await AsyncStorage.getItem('userToken');
-                const response = await axios.get(`http://localhost:3000/planner?date=${selectedDate}`, {
+                const response = await axios.get(`http://172.30.1.92:3000/planner?date=${selectedDate}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setSchedules(response.data.schedules); // 서버에서 받은 일정 리스트 설정

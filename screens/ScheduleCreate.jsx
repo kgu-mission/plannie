@@ -6,6 +6,8 @@ import styles from "../Styles/ScheduleCreateStyles";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from 'moment';
+import {createSchedule} from "./api/planner";
+
 
 const ScheduleCreate = ({ selectedDate, closeModal }) => {
     const [title, setTitle] = React.useState("");
@@ -25,45 +27,23 @@ const ScheduleCreate = ({ selectedDate, closeModal }) => {
     const notificationOptions = ["안 함", "5분 전", "10분 전", "15분 전", "30분 전", "1시간 전", "2시간 전", "1일 전", "2일 전"];
     const repeatOptions = ["안 함", "월", "화", "수", "목", "금", "토", "일"];
 
-    const handleSave = async () => {
+    const handleSave = () => {
         if (!title) {
             Alert.alert("오류", "일정 제목을 입력하세요.");
             return;
         }
 
-        const formattedDate = moment(selectedDate).format("YYYY.MM.DD");
-        const formattedStartTime = moment(startTime).format("HH:mm");
-        const formattedEndTime = moment(endTime).format("HH:mm");
-
-        try {
-            const token = await AsyncStorage.getItem("userToken");
-            const response = await axios.post(
-                "http://localhost:3000/planner/add",
-                {
-                    start_day: formattedDate,
-                    end_day: formattedDate,  // 여기에서는 같은 날짜로 설정했습니다
-                    title,
-                    start_time: formattedStartTime,
-                    end_time: formattedEndTime,
-                    memo,
-                    notification,
-                    repeat,
-                    check_box: false,
-                    url,
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-
-            if (response.status === 201) {
-                Alert.alert("성공", "일정이 생성되었습니다.");
-                closeModal();
-            }
-        } catch (error) {
-            console.error("일정 생성 오류:", error);
-            Alert.alert("오류", "일정 생성에 실패했습니다.");
-        }
+        createSchedule({
+            selectedDate,
+            title,
+            startTime,
+            endTime,
+            memo,
+            notification,
+            repeat,
+            url,
+            closeModal
+        });
     };
 
     return (

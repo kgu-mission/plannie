@@ -13,31 +13,14 @@ const SignUp1 = ({ navigation }) => {
             return;
         }
 
-        try {
-            // 이메일을 소문자로 변환하여 서버로 전송
-            const response = await axios.get(`http://localhost:3000/users/check/${email.toLowerCase()}`);
+        const { available, message } = await checkEmailAvailability(email);
 
-            // 이메일이 이미 존재하는 경우 (200 OK 응답 시)
-            if (response.status === 200) {
-                Alert.alert('오류', '이미 사용 중인 이메일입니다.');
-                return;
-            }
-        } catch (error) {
-            // 사용자가 존재하지 않는 경우 (404 오류 시) 다음 페이지로 이동
-            if (error.response && error.response.status === 404) {
-                navigation.navigate('SignUp2', {
-                    email,
-                    password
-                });
-            } else {
-                // 다른 오류가 발생한 경우 에러 메시지 표시
-                const errorMessage = error.response?.data?.message || '이메일 중복 확인 중 오류가 발생했습니다.';
-                console.error('이메일 중복 확인 오류:', error);
-                Alert.alert('오류', errorMessage);
-            }
+        if (available) {
+            navigation.navigate('SignUp2', { email, password });
+        } else {
+            Alert.alert('오류', message);
         }
     };
-
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Let’s join the Plannie</Text>

@@ -8,48 +8,23 @@ import styles from '../Styles/MyPageMainStyles';
 import BottomNav from "../nav/BottomNav";
 import MyPageTopNav from "../nav/MyPageTopNav";
 import { useNavigation } from "@react-navigation/native";
+import {deleteUser, fetchNickname, handleLogout} from "./api/user";
+import DeleteAccount from "./DeleteAccount";
 
 const MyPageMain = () => {
     const navigation = useNavigation();
     const [nickname, setNickname] = useState('');
 
-    // Fetch nickname from server using token
     useEffect(() => {
-        const fetchNickname = async () => {
-            try {
-                const token = await AsyncStorage.getItem('userToken');
-                if (!token) {
-                    Alert.alert("로그인 정보가 없습니다.", "다시 로그인 해주세요.");
-                    navigation.navigate('Login');
-                    return;
-                }
-
-                const response = await axios.get('http://localhost:3000/users/profile', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-
-                setNickname(response.data.nickname); // Assuming the server returns { nickname: 'your_nickname' }
-            } catch (error) {
-                console.error("Error fetching nickname:", error);
-                Alert.alert("오류", "사용자 정보를 가져오는 데 실패했습니다.");
+        const loadNickname = async () => {
+            const nicknameData = await fetchNickname(navigation);
+            if (nicknameData) {
+                setNickname(nicknameData);
             }
         };
 
-        fetchNickname();
+        loadNickname();
     }, []);
-
-    // Handle logout by clearing the token
-    const handleLogout = async () => {
-        try {
-            await AsyncStorage.removeItem('userToken');
-            Alert.alert("로그아웃 되었습니다.");
-            navigation.navigate('Login');
-        } catch (error) {
-            console.error("Logout error:", error);
-            Alert.alert("오류", "로그아웃 중 문제가 발생했습니다.");
-        }
-    };
-
     return (
         <View style={styles.mypageMain}>
             <MyPageTopNav/>
@@ -134,11 +109,11 @@ const MyPageMain = () => {
                     <Text style={[styles.version, styles.textTypo]}>1.0</Text>
                 </View>
             </View>
-            <TouchableOpacity style={[styles.mpLogoutButton, styles.buttonLayout]} onPress={handleLogout}>
+            <TouchableOpacity style={[styles.mpLogoutButton, styles.buttonLayout]} onPress={() => handleLogout(navigation)} >
                 <Text style={styles.textTypo}>로그아웃</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() => navigation.navigate('DeleteAccount')}
+                onPress={() => deleteUser()}
                 style={[styles.mpWithdrawalButton, styles.buttonLayout]} >
                 <Text style={[styles.text, styles.textTypo]}>탈퇴하기</Text>
             </TouchableOpacity>

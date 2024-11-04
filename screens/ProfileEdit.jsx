@@ -4,9 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {styles} from '../Styles/ProfileEditStyles';
 import {useNavigation} from "@react-navigation/native";
+import {fetchUserProfile, updateUserProfile} from "./api/user";
 
 const ProfileEdit = () => {
-    const navigation = useNavigation(); // useNavigation 훅 사용
+    const navigation = useNavigation();
 
     const [formData, setFormData] = useState({
         password: '',
@@ -19,55 +20,29 @@ const ProfileEdit = () => {
         profileimg: '',
     });
 
-    // Load initial user data from server
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = await AsyncStorage.getItem('userToken');
-                if (!token) {
-                    Alert.alert("로그인 정보가 없습니다.", "다시 로그인 해주세요.");
-                    return;
-                }
-
-                const response = await axios.get('http://localhost:3000/user/profile', {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-
-                // 서버에서 받은 사용자 정보를 그대로 formData에 설정
-                setFormData(response.data);
-            } catch (error) {
-                console.error("Error fetching user profile:", error);
-                Alert.alert("오류", "사용자 정보를 가져오는 데 실패했습니다.");
+        const loadUserProfile = async () => {
+            const data = await fetchUserProfile();
+            if (data) {
+                setFormData(data);
             }
         };
 
-        fetchUserProfile();
+        loadUserProfile();
     }, []);
 
-    // Handle form data changes
     const handleChange = (name, value) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    // Handle profile update submission
     const handleSubmit = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            await axios.put(
-                'http://localhost:3000/user/update',
-                formData,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+        const { success } = await updateUserProfile(formData);
+        if (success) {
             Alert.alert('성공', '회원 정보가 성공적으로 수정되었습니다.');
-
-            // 정보 수정 후 MyPageMain으로 이동
             navigation.navigate('MyPageMain');
-
-        } catch (error) {
-            console.error("Error updating profile:", error);
-            Alert.alert('오류', '회원 정보 수정에 실패했습니다.');
         }
     };
+
 
     return (
         <View style={styles.container}>

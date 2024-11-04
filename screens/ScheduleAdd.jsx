@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "../Styles/ScheduleAddStyles";
 import ScheduleCreate from "./ScheduleCreate";
 import axios from "axios";
+import {fetchSchedulesByDate, updateCheckboxStatus} from "./api/planner";
 
 const ScheduleAdd = ({ selectedDate }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -14,53 +15,23 @@ const ScheduleAdd = ({ selectedDate }) => {
     const apiDate = selectedDate ? new Date(selectedDate).toISOString().split('T')[0].replace(/-/g, '.') : '';
 
     React.useEffect(() => {
-        const fetchSchedules = async () => {
-            if (!apiDate) return;
-
+        const fetchAndSetSchedules = async () => {
             setLoading(true);
-            try {
-                const token = await AsyncStorage.getItem('userToken');
-                const response = await axios.get(`http://localhost:3000/planner/date/?date=${apiDate}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-
-                console.log("Schedules fetched:", response.data);
-                setSchedules(Array.isArray(response.data) ? response.data : []);
-            } catch (error) {
-                if (error.response && error.response.status === 404) {
-                    setSchedules([]);
-                    Alert.alert("알림", "해당 날짜에 일정이 없습니다.");
-                } else {
-                    console.error("일정 가져오기 오류:", error);
-                    Alert.alert("오류", "일정을 불러오는 데 실패했습니다.");
-                }
-            } finally {
-                setLoading(false);
-            }
+            const data = await fetchSchedulesByDate(apiDate);
+            setSchedules(data);
+            setLoading(false);
         };
-
-        fetchSchedules();
+        fetchAndSetSchedules();
     }, [apiDate]);
 
     const toggleCheckbox = async (scheduleId, currentCheckBoxState) => {
-        const token = await AsyncStorage.getItem('userToken');
-        try {
-            // 서버에 check_box 상태 업데이트 요청
-            await axios.put(
-                `http://localhost:3000/planner/${scheduleId}`,
-                { check_box: !currentCheckBoxState },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            // UI 업데이트: 체크박스 상태를 업데이트
+        const success = await updateCheckboxStatus(scheduleId, currentCheckBoxState);
+        if (success) {
             setSchedules(prevSchedules =>
                 prevSchedules.map(schedule =>
                     schedule.id === scheduleId ? { ...schedule, check_box: !currentCheckBoxState } : schedule
                 )
             );
-        } catch (error) {
-            console.error("Failed to update schedule:", error);
-            Alert.alert("오류", "일정 상태 업데이트에 실패했습니다.");
         }
     };
 

@@ -7,6 +7,7 @@ import styles from '../Styles/CalendarStyles';
 import BottomNav from "../nav/BottomNav";
 import ScheduleAdd from "./ScheduleAdd";
 import { useNavigation } from "@react-navigation/native";
+import {fetchMonthSchedules} from "./api/planner";
 const Calendar = () => {
     const navigation = useNavigation();
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -33,29 +34,11 @@ const Calendar = () => {
 
     // Monthly schedule fetching
     useEffect(() => {
-        fetchMonthSchedules(currentDate.getFullYear(), currentDate.getMonth() + 1);
+        fetchMonthSchedules(currentDate.getFullYear(), currentDate.getMonth() + 1)
+            .then((data) => setSchedules(data))
+            .catch(() => setSchedules([]))
+            .finally(() => setLoading(false));
     }, [currentDate]);
-
-    const fetchMonthSchedules = async (year, month) => {
-        setLoading(true);
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            if (!token) {
-                Alert.alert("Authentication required", "Please log in.");
-                return;
-            }
-            const response = await axios.get(`http://localhost:3000/planner/monthly`, {
-                headers: { Authorization: `Bearer ${token}` },
-                params: { year, month }
-            });
-            setSchedules(Array.isArray(response.data) ? response.data : []);
-        } catch (error) {
-            console.error("Failed to fetch schedules:", error);
-            setSchedules([]);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDatePress = (date) => {
         const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));

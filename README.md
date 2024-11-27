@@ -13,7 +13,7 @@
 ## 서비스 요청 흐름도
 
 
-![[.github/service_flow.png]]
+![flow](.github/service_flow.png)
 
 ---
 ## 역할분담

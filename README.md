@@ -13,7 +13,7 @@
 ## 서비스 요청 흐름도
 
 
-![[img/Group 115.png]]
+![[.github/service_flow.png]]
 
 ---
 ## 역할분담

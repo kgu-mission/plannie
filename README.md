@@ -39,6 +39,7 @@
 -----
 # 📚Stacks
 
+
 <div>
 	<h2>Environment</h2><img src="https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 	<br>
@@ -104,7 +105,11 @@
 
  
 </div>
+
+
 ----
+
+
 ##  ✉️향후 과제[2024.11.27 - ...]
 
 

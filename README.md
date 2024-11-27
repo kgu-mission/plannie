@@ -2,9 +2,11 @@
 ------
 # Screens <<-- 여기에 프로젝트 설명도 같이
 
----
+
 
 ----
+
+
 ## Structure
 [구조보기]()
 ---
@@ -17,10 +19,18 @@
 ## 역할분담
 #### 🔧 GPT - FineTuner
 🐁 [박승연](https://github.com/Syeonnny)
+
+
 🍔 [박진서](https://github.com/orgs/kgu-mission/people/j2nseo)
+
+
 #### ⛏️Back-FrontEnd
 🐧 [장서진](https://github.com/juytj11) 
+
+
 🐸 [유찬혁](https://github.com/ChanHyuckYou)
+
+
 🔰 [문예진](https://github.com/orgs/kgu-mission/people/moonyaejin)
 
 -----

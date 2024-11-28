@@ -1,13 +1,13 @@
 # 📆 AI로 학습된 챗봇으로 일정을 편리하게 관리할 수 있는 애플리케이션, Plannie
 
 
-# Screens <<-- 여기에 프로젝트 설명도 같이
+# 🖥️ Screens <<-- 여기에 프로젝트 설명도 같이
 
 
 
 
 
-## Structure
+## 🗂️ Structure
 [구조보기]()
 
 ## 서비스 요청 흐름도
@@ -16,7 +16,7 @@
 ![flow](.github/service_flow.png)
 
 
-## 역할분담
+## 🏋️‍♀️ 종사자
 
 
 #### 🔧 GPT - FineTuner

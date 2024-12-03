@@ -5,6 +5,8 @@ import axios from 'axios';
 import { FontFamily, Color, FontSize } from "../GlobalStyles";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import uuid from 'react-native-uuid';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ChatChatting = () => {
     const navigation = useNavigation();
@@ -47,7 +49,7 @@ const ChatChatting = () => {
     const sendMessage = async () => {
         if (inputText.trim().length > 0) {
             const newMessage = {
-                id: Date.now().toString(),
+                id: uuid.v4(),
                 text: inputText,
                 sender: 'user'
             };
@@ -56,45 +58,93 @@ const ChatChatting = () => {
             setInputText("");
 
             try {
-                const response = await axios.post(
+                const token = await AsyncStorage.getItem('userToken');
+                if (!token) {
+                    throw new Error("사용자 인증 토큰을 찾을 수 없습니다. 다시 로그인해 주세요.");
+                }
 
-                    'https://api.openai.com/v1/chat/completions',
+                const response = await axios.post(
+                    'http://localhost:3000/chat/send-message2',
                     {
-                        model: "ft:gpt-3.5-turbo-0125:personal::A67I2sq4",
-                        messages: [
-                            { role: "system", content: "You are a helpful assistant." },
-                            ...messages.map(msg => ({
-                                role: msg.sender === 'user' ? 'user' : 'assistant',
-                                content: msg.text
-                            })),
-                            { role: 'user', content: inputText }
-                        ],
-                        max_tokens: 4096,
-                        temperature: 0.9,
+                        senderId: "chanhyuck10@naver.com",
+                        message: inputText,
                     },
                     {
                         headers: {
-                            'Authorization': `Bearer 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`
+                            Authorization: `Bearer ${token}`,
                         }
                     }
                 );
 
-                const botMessage = {
-                    id: Date.now().toString(),
-                    text: response.data.choices[0].message.content.trim(),
-                    sender: 'bot'
+                const gptMessage = {
+                    id: uuid.v4(),
+                    text: `GPT 응답: ${response.data.originalReply}`,
+                    sender: 'bot',
                 };
+
+                setMessages(prevMessages => [...prevMessages, gptMessage]);
+
+                const parsedData = response.data.parsedData;
+                const actionResult = response.data.actionResult;
+
+                if (parsedData) {
+                    let actionMessage;
+                    switch (parsedData.action) {
+                        case '조회':
+                            actionMessage = {
+                                id: uuid.v4(),
+                                text: `${parsedData.date}의 일정을 조회했습니다! : ${JSON.stringify(actionResult, null, 2)}`,
+                                sender: 'bot'
+                            };
+                            break;
+                        case '생성':
+                            actionMessage = {
+                                id: uuid.v4(),
+                                text: `일정을 생성했습니다! : ${JSON.stringify(parsedData, null, 2)}`,
+                                sender: 'bot'
+                            };
+                            break;
+                        case '수정':
+                            actionMessage = {
+                                id: uuid.v4(),
+                                text: `수정을 완료했습니다! 기존 데이터와 신규 데이터 : ${JSON.stringify(actionResult, null, 2)}`,
+                                sender: 'bot'
+                            };
+                            break;
+                        case '삭제':
+                            actionMessage = {
+                                id: uuid.v4(),
+                                text: `말씀하신 일정을 삭제했습니다! : ${JSON.stringify(parsedData, null, 2)}`,
+                                sender: 'bot'
+                            };
+                            break;
+                        default:
+                            actionMessage = {
+                                id: uuid.v4(),
+                                text: `파싱된 데이터: ${JSON.stringify(parsedData, null, 2)}`,
+                                sender: 'bot'
+                            };
+                    }
+                    setMessages(prevMessages => [...prevMessages, actionMessage]);
+                } else {
+                    const followUpMessage = {
+                        id: uuid.v4(),
+                        text: "무엇을 도와드릴까요? 일정 생성, 조회, 수정, 삭제 중 하나를 선택해주세요.",
+                        sender: 'bot',
+                    };
+                    setMessages(prevMessages => [...prevMessages, followUpMessage]);
+                }
+
                 setTimeout(() => {
                     if (flatListRef.current) {
                         flatListRef.current.scrollToEnd({ animated: true });
                     }
                 }, 100);
-                setMessages(prevMessages => [...prevMessages, botMessage]);
             } catch (error) {
                 console.error("Error:", error.response ? error.response.data : error.message);
 
                 const errorMessage = {
-                    id: Date.now().toString(),
+                    id: uuid.v4(),
                     text: "오류가 발생했습니다. 다시 시도해주세요.",
                     sender: 'bot'
                 };
@@ -169,6 +219,7 @@ const ChatChatting = () => {
         </KeyboardAvoidingView>
     );
 };
+
 
 const styles = StyleSheet.create({
     messageContainer: {

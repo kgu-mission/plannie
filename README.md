@@ -21,7 +21,7 @@
 
 #### 🔧 GPT - FineTuner
 
-🐁 [박승연](https://github.com/Syeonnny)
+🐭 [박승연](https://github.com/Syeonnny)
 
 
 🍔 [박진서](https://github.com/orgs/kgu-mission/people/j2nseo)
@@ -34,7 +34,7 @@
 🐸 [유찬혁](https://github.com/ChanHyuckYou)
 
 
-🔰 [문예진](https://github.com/orgs/kgu-mission/people/moonyaejin)
+🐹 [문예진](https://github.com/orgs/kgu-mission/people/moonyaejin)
 
 -----
 # 📚 Stacks
